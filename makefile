@@ -1,6 +1,6 @@
 title=tmp
 
-.PHONY: new 
+.PHONY: new deploy 
 
 new:
 	hexo new "$(title)"
@@ -9,3 +9,6 @@ new:
 deploy:
 	hexo g
 	hexo d
+	git add -A
+	git commit -m"1"
+	git push

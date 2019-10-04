@@ -107,3 +107,11 @@ hexo d		//部署到GitHub
 ```
 ### 建立本地库
 
+### makefile
+```bash
+.PHONY: deploy
+
+deploy:
+	hexo g
+	hexo d
+```
