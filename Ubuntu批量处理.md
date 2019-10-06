@@ -4,10 +4,34 @@ date: 2019-09-16 07:51:40
 tags: 批处理
 ---
 # 1.内容
-shell
+.sh
 makefile
 c/c++
-# 2.shell
+# 2.sh
+在Ubuntu中有三种方式运行.sh脚本：
+```bash
+sh xxx.sh	//通过sh运行
+bash xxx.sh //通过bash运行
+source ? //没有用过
+./xxx.sh //需要有特殊条件
+```
+当时用最后一种时，有两个条件：
+1。需要在文档中有
+```bash
+#! /bin/bash	
+//或者
+#! /bin/sh
+```
+分别代表用bash和sh运行
+
+如果没有指定用bash或者sh时，Ubuntu会使用bash.
+
+2。权限修改
+```bash
+chmod a+x xxx.sh
+```
+建议使用bash因为会避免一些奇怪的错误
+
 
 ## 2.1输出重定向
 命令		说明
@@ -20,6 +44,10 @@ n >& m		将输出文件 m 和 n 合并。
 n <& m		将输入文件 m 和 n 合并。
 << tag		将开始标记 tag 和结束标记 tag 之间的内容作为输入。
 
+## 2.2 echo
+"" 里面包含转义字符
+''里面没有转义字符
+
 # 3.makefile
 ## 3.1 .PHONY 
 	区分大小写，表示后面的target不是真实的文件。
@@ -30,6 +58,30 @@ n <& m		将输入文件 m 和 n 合并。
 make args=data
 //通过命令行传递参数
 ```
+## 3.4 如何加入bash
+```bash
+SHELL=/bin/bash
+```
+
+## 3.5 :=和=
+1、“=”
+	make会将整个makefile展开后，再决定变量的值。也就是说，变量的值将会是整个makefile中最后被指定的值。看例子：
+```bash
+            x = foo
+            y = $(x) bar
+            x = xyz
+```
+在上例中，y的值将会是 xyz bar ，而不是 foo bar 。
+2、“:=”
+	“:=”表示变量的值决定于它在makefile中的位置，而不是整个makefile展开后的最终值。
+```bash
+            x := foo
+            y := $(x) bar
+            x := xyz
+```
+在上例中，y的值将会是 foo bar ，而不是 xyz bar 了。
+
+
 # 4.c/c++
 
 ## 4.1C编译过程：
