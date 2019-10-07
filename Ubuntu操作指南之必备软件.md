@@ -7,15 +7,22 @@ tags:
 vim
 equ电子书阅读器
 calibre
+
 音乐作谱
 LMMS
+
 数据库
 MySQL
+
 仓库
 git
+
 下载工具
 KTorrent
 ural
+
 常用工具
 tree
 
+即时聊天工具
+skype
