@@ -115,3 +115,9 @@ deploy:
 	hexo g
 	hexo d
 ```
+
+
+下载最新版本的nodejs:
+sudo npm install n -g
+sudo n stable
+node --version
