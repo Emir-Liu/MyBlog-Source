@@ -39,9 +39,9 @@ images/xx.png
 
 ## 1.4导航条
 ```bash
-<nav>
-<ul>
-<li>Emir Liu</li>
+<nav>//导航栏
+<ul>//无序列表,ol为有序列表
+<li>Emir Liu</li>//列表中的元素
 <li>Blog </li>
 <li>Resume</li>
 </ul>
@@ -59,6 +59,12 @@ images/xx.png
 
 ### 1.4.2导航排列方式
 display: inline-block
+排列在一行
+
+:hover
+当鼠标悬浮在某个格式上面的时候，则
+
+cursor: pointer 鼠标变为手指
 
 # 2.CSS
 ## 2.1如何插入一个CSS样式表

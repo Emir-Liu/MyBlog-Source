@@ -53,7 +53,11 @@ apache2ctl restart	重启
 apache2ctl stop 	关闭
 ```
 ## 6.Apache2配置文件
-/etc/apache2/apache2.conf
+/etc/apache2/apache2.conf 存放网站的配置
+如果有域名，可以在一个端口配置多个网站。
+直接用IP地址，则在一个端口配置一个网站。
+/var/www/html 存放网站数据
+
 ## 7.如何检测本地的网站
 ping ip然后检查端口，我都不知道自己在说些什么。
 Tips:作为小白还需要一些东西来记录一下，关于内网和外网。
