@@ -113,3 +113,7 @@ sudo rm /var/lib/dpkg/lock
 ```bash
 jobs	//显示被暂停的工作
 ```
+
+sudo vim /etc/systemd/resolved.conf
+取消DNS注释：
+

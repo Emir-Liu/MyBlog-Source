@@ -23,6 +23,43 @@ id = "id-name"				//调用一个id
 <!-- comment  -->
 ```
 
+## 1.3如何插入小图标
+```bash
+<link rel="shortcut icon" sizes="16*16 24*24 48*48 64*64" href="favicon.ico">
+```
+### 1.3.1图片的引用
+1.绝对路径
+/../xx.png
+2.相对路径
+xx.png
+3.子路径
+images/xx.png
+4.父路径
+../xx.png
+
+## 1.4导航条
+```bash
+<nav>
+<ul>
+<li>Emir Liu</li>
+<li>Blog </li>
+<li>Resume</li>
+</ul>
+</nav>
+//或者
+<nav>
+<ul>
+<li> </li>
+</ul>
+</nav>
+```
+### 1.4.1超链接
+<a hreb="/blog">Blog</a>
+<a hreb="/" >Emir Liu</a>
+
+### 1.4.2导航排列方式
+display: inline-block
+
 # 2.CSS
 ## 2.1如何插入一个CSS样式表
 ### 2.1.1外部样式表
