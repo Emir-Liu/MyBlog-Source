@@ -1,7 +1,10 @@
 ---
 title: Ubuntu上opencv的使用
 date: 2019-09-23 20:41:41
-tags: opencv
+tags: 
+- opencv
+- python
+- Ubuntu
 ---
 
 # 1.Ubuntu上使用摄像头
