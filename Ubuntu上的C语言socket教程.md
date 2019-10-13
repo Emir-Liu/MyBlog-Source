@@ -1,7 +1,9 @@
 ---
 title: Ubuntu上的C语言socket教程
 date: 2019-10-12 21:35:29
-tags: socket
+tags: 
+-socket
+-C/C++
 ---
 # 0.简介
 socket时网络中2个主机之间进行任何类型的网络通信的虚拟口，任何网络通信都是通过套接字来进行。
