@@ -93,6 +93,18 @@ sudo	暂时获取管理员权限，之后要求输入密码，不显示密码
 sudo -s 获取root权限
 exit	退出root权限
 
+# codeblocks:
+
+## 快捷键：
+```bash
+Ctrl+Shift+c //注释代码块
+Ctrl+Shift+x //取消注释
+Alt+方向键上下//将这一行进行上下移动
+Tab	//缩进当前或选中的块
+Shift+Tab//减小缩进
+Ctrl+Z//撤销
+```
+
 # FAQ:
 ## 用apt下载文件时遇到 /var/lib/dpkg/lock - open (13: 权限不够)问题：
 解决方式：
