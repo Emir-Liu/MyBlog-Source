@@ -48,13 +48,14 @@ git clone git://xxx [file-name]
 最后一次性提交暂存区的文件。
 
 状态转化图：
+```bash
 untracked(未跟踪) |						tracked(已跟踪)
 untracked					| unmodified(未修改) | modified(已修改)	| staged(暂存区)
 		       	--------------------add file-------------------->     	    	
                                                     --add file->
                                  --edit file->	    --stage file->
 		       	<-remove file--				<-----------commit------------
-
+```
 检查当前文件状态：
 ```bash
 git status
