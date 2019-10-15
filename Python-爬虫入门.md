@@ -1,7 +1,8 @@
 ---
 title: Python 爬虫入门
 date: 2019-08-19 10:18:49
-tags: Python
+tags: 
+- python
 ---
 # Ubuntu18 如何安装Python
 Ubuntu18 默认安装了Python2和Python3,打开Python默认打开Python2:
