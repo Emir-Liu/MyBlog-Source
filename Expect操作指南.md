@@ -1,7 +1,9 @@
 ---
 title: Expect操作指南
 date: 2019-09-19 13:16:39
-tags: Expect
+tags: 
+- Expect
+- 批处理
 ---
 Expect是一个用来处理交互的命令。借助Expect，我们可以将交互过程写在一个脚本上，使之自动化完成。可以应用于ssh登陆，ftp登陆。
 
