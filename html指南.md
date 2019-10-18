@@ -66,6 +66,18 @@ display: inline-block
 
 cursor: pointer 鼠标变为手指
 
+## 2.属性
+
+### 2.1 position属性
+1、static：
+	static是所有元素的默认属性，也就是可以理解为正常的文档流
+2、relative:
+	relative是相对于自己文档的位置来定位的，对旁边的元素没有影响
+3、absolute：
+	absolute是相对于父标签来进行定位的，如果没有父标签或者父标签是static，那么sorry，刚烈的absolute会相对于文档定位（不同于fixed相对于浏览器定位）
+4、fixed；
+	牛逼的fixed，是相对于浏览器窗口来定位的。不会因为滚动条滚动，牛了一笔。（但是平常卵用不多，我自己的吐槽）
+
 # 2.CSS
 ## 2.1如何插入一个CSS样式表
 ### 2.1.1外部样式表
