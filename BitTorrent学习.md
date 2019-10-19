@@ -69,6 +69,11 @@ PEX Peer EXchange节点信息交换 虽然DHT解决了中心化的问题，但�
 
 Magnet links 告诉BT客户端寻找什么。
 
+首先是客户端Becode的建立：
+
+https://github.com/cwyang/bencode
+见BT客户端的文章
+
 The Pirate Bay海盗湾 世界上最大的电子信息分享网站，专门存储分类和搜索资源的网站，最大的BTTracker服务器
 
 历史事件表：
