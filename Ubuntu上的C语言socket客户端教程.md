@@ -1,5 +1,5 @@
 ---
-title: Ubuntu上的C语言socket教程
+title: Ubuntu上的C语言socket客户端教程
 date: 2019-10-12 21:35:29
 tags: 
 - socket
