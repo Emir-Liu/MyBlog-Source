@@ -205,4 +205,107 @@ git remote show [remote-name]
 ```
 
 
+## 4 打标签
+```bash
+git tag
+//列出已有标签
+git tag -l 'v1.4.2.*'
+//特定搜索模式搜索标签
+git tag -a v1.4 -m "my sersion 1.4"
+//添加标签annotated
+```
+
+如果拥有私钥可以通过GPG来签署标签
+这个有什么用处呢？
+```bash
+git tag -s v1.5 -m "my signed 1.5 tag"
+```
+
+通过git show可以显示GPG签名
+
+后期加标签
+```bash
+git log --pretty=online
+//显示之前的操作
+
+git tag -a v1.2 9fceb02
+//在打标签的时候跟上校验
+```
+
+分享标签，默认不会将标签传送到远端服务器，必须通过显式命令。
+
+```bash
+git push origin [tagname]
+
+git push origin --tags
+//将所有本地标签添加上去
+```
+
+git 快捷操作命名别名：
+```bash
+git config --global alias.ci commit
+//输入git commit只需要git ci，用于提高效率
+```
+
+# 5 分支
+任何版本控制系统都支持分支。
+意味着从开发的主线上分离开，在不影响主线的同时继续工作。
+在其他版本控制中，需要创建一个源代码目录的完整副本。
+
+git可以快速切换分支与合并。
+
+修补仓库中的程序的步骤：
+1.返回到原先的分支
+2.新建一个新的分支，修复问题
+3.回到原先的分支进行合并，然后推送
+
+```bash
+
+git checkout -b new-branch
+//新建并切换到new-branch分支
+//以上的命令等效于
+git branch new-branch
+git checkout new-branch
+
+//修改文件之后,提交文件到暂存区
+giit commit -a -m'commit new-brach'
+
+//需要修补主分支的问题
+//切换到主分支
+git checkout master
+
+//创建新的修补分支
+git checkout -b fix-branch
+
+//修改文件,之后提交
+git commit -a -m 'fix branch'
+
+//修补完成后，回到主分支并且合并，然后发布
+git checkout master
+git merge fix-branch
+
+//fix-branch合并后可以删掉
+git branch -d fix-branch
+
+//返回到new-branch分支，继续进行原有工作，然后提交
+git checkout new-branch
+//修改文件
+git commit -a -m 'finish the new-branch'
+
+//将新分支和修改分支合并
+git checkout master
+git merge new-branch
+
+//删除new-branch分支
+git branch -d new-branch
+
+```
+在实际情况下，会遇到冲突的分支合并
+如果在不同的分支中都修改了同一个文件的同一个部分，git就无法将两者合并到一起。这时候就会产生冲突。
+通过git status显示。可以选择不同分支的一个或者亲自整合到一起。
+整合完成之后，运行git add可以标记为解决状态。
+运行git mergetool可以调用一个可视化的合并工具解决冲突。
+git commit提交文件。
+
+分支的管理：
 
