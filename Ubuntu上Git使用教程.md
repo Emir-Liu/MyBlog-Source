@@ -308,4 +308,13 @@ git branch -d new-branch
 git commit提交文件。
 
 分支的管理：
-
+```bash
+git branch
+//显示所有分支
+git branch --merged
+//显示未合并分支
+git branch -d [branch-name]
+//删除已合并分支
+git branch -D [branch-name]
+//删除未合并分支
+```
