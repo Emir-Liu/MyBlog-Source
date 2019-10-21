@@ -2,7 +2,7 @@
 title: Git上搭建Hexo博客
 date: 2019-08-19 11:20:56
 tags: 
-- hexo
+- Hexo
 - git
 - Ubuntu
 ---
