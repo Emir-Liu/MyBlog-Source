@@ -318,3 +318,15 @@ git branch -d [branch-name]
 git branch -D [branch-name]
 //删除未合并分支
 ```
+
+远程分支：
+远程分支是对远程仓库的分支的索引。是无法移动的本地分支，只有在git进行网络交互的时候才会更新。
+远程分支的表示方式：
+远程仓库名/分支名
+例如：origin/master
+origin仓库的master分支
+
+//同步远程服务器上的数据到本地
+git fetch origin
+
+
