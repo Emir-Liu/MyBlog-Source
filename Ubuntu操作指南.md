@@ -93,6 +93,20 @@ sudo	暂时获取管理员权限，之后要求输入密码，不显示密码
 sudo -s 获取root权限
 exit	退出root权限
 
+## 建立快捷方式
+在/usr/share/applications目录下
+```bash
+vim pycharm.desktop
+
+[Desktop Entry]
+Type=Application
+Name=Pycharm
+Comment=The Python IDE
+Exec=sh /home/eglym/pycharm-community-2019.2.3/bin/pycharm.sh
+Icon=/home/eglym/pycharm-community-2019.2.3/bin/pycharm.png
+
+```
+
 # FAQ:
 ## 用apt下载文件时遇到 /var/lib/dpkg/lock - open (13: 权限不够)问题：
 解决方式：
