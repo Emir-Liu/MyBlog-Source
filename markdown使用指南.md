@@ -14,3 +14,8 @@ tags:
 ```
 更多的符号查看：
 https://blog.csdn.net/html5_/article/details/21639475
+
+每段前面的两个空格可以使用
+&nbsp;
+
+在markdown中直接打空格是不行的，空格三个以内都没有效果，从第四个开始变为代码片段，
