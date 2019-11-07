@@ -9,8 +9,8 @@ tags:
 
 上标，下标以及更多的符号：
 ```bash
-<sup>xxx</sup>//上标
-<sub>xxx</sub>//下标
+<sup>xxx</sup>//上标superscript
+<sub>xxx</sub>//下标subscript
 ```
 更多的符号查看：
 https://blog.csdn.net/html5_/article/details/21639475
