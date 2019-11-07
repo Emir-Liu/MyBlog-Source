@@ -1,8 +1,34 @@
 ---
 title: Ubuntu操作指南
 date: 2019-08-19 11:44:30
-tags: Ubuntu
+tags: 
+- Ubuntu
 ---
+
+## 输入法配置谷歌拼音
+
+```bash
+1.安装中文字体（已经有了，这一步略过）
+2.安装fcitx框架
+3.安装google拼音
+4.配置输入法
+```
+
+```bash
+sudo apt install fcitx
+sudo apt install fcitx-googlepinyin
+```
+
+配置输入法：
+1.点击input method
+2.选择fcitx
+
+3.进入input method configuration
+4.选择加号添加输入法
+5.取消勾选仅显示当前语言，在下面搜索google-pinyin
+6.重启fcitx或者Ubuntu
+7.默认切换输入法ctrl+space或者shift
+
 ## 文档处理指令：
 
 cd:进入下级目录
