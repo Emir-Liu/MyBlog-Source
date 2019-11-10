@@ -125,3 +125,60 @@ MySQL存储引擎:
 5.ARCHIVE
 6.CSV
 7.FEDERATED
+
+
+MySQL数据类型
+每种数据可以通过以下的特征来确定：
+1.值的类型
+2.占用的空间，以及值为固定长度还是可变长度
+3.数据类型的值是否可以索引
+4.如何比较特定数据类型的值
+
+数字：
+TINYINT	非常小的整数
+SMALLINT	小的整数
+MEDIUMINT	中等整数
+INT	标准整数
+BIGINT	大整数
+DECIMAL	定点数
+FLOAT	单精度浮点数
+DOUBLE	双精度浮点数
+BIT	一位
+
+布尔：
+没有内置的布尔数据类型，使用最小的整数类型TINYINT
+
+字符串：
+可以保存从纯文本到二进制数据例如图像或者文件的任何内容。
+CHAR	固定长度的非二进制字符串
+VARCHAR	可变长度的非二进制字符串
+
+TINYTEXT	很小的非二进制字符串
+TEXT	小的非二进制字符串
+MEDIUMTEXT	中等非二进制字符串
+LONGTEXT	大型非二进制字符串
+
+
+BINARY	定长的二进制字符串
+VARBINARY	可变长度的二进制字符串
+
+TINYBLOB	很小的BLOB(二进制大对象)
+BLOB	小BLOB
+MEDIUMBLOB	中等BLOB
+LONGBLOB	大型BLOB
+
+ENUM	枚举，每个列可以分配一个枚举成员
+SET	一套，每个列可以分配0或者多个SET成员
+
+时间：
+DATE	CCYY-MM-DD
+TIME	HH：MM：SS
+DATETIME	CCYY-MM-DD HH：MM：SS
+TIMESTAMP	CCYY-MM-DD HH：MM：SS
+YEAR	CCYY/YY
+
+空间：
+没有用到过，待定
+
+JSON数据类型：
+
