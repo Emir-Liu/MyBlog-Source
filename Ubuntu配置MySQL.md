@@ -1,7 +1,8 @@
 ---
 title: Ubuntu配置MySQL
 date: 2019-09-14 09:52:06
-tags: MySQL
+tags: 
+- mysql
 ---
 详细教程:http://www.mysqltutorial.org/basic-mysql-tutorial.aspx
 # 1.安装MySQL
