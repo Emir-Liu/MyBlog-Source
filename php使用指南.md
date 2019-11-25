@@ -11,6 +11,16 @@ PHP并不是在浏览器上运行，PHP是在服务器的环境中运行，你�
 想要在浏览器上访问本地的PHP文件，则：
 首先需要在本地搭建一个php的运行环境，WAMP、phpstudy、xampp都可以，安装一个。然后把php文件扔进www文件夹中，浏览器输入访问路径：http://localhost/你的文件，就可运行PHP文件显示结果了。
 
+但是，通常我们直接在服务器上配置。
+1.安装apache，开启服务，见相关博客
+2.安装php
+```bash
+sudo apt install php7.2
+```
+3.编写网页检测程序/var/www/html/index.php
+```bash
+<?php phpinfo( ); ?>
+```
 
 HELLO WORLD
 ```bash
@@ -46,11 +56,4 @@ Web服务器
 
 PHP解析器 
 -为了处理PHP脚本指令，必须安装解析器以生成可以发送到Web浏览器的HTML输出。本教程将指导您如何在计算机上安装PHP解析器。
-在继续之前，重要的是要确保您的计算机上具有正确的环境设置，以便使用PHP开发Web程序。
-
-在浏览器的地址栏中输入以下地址。
-http://127.0.0.1/info.php
-如果显示的页面显示与PHP安装相关的信息，则表明您已正确安装PHP和Webserver。否则，您必须按照给定的过程在计算机上安装PHP。
-
-sudo apt install php
-
+在继续之前，重要的是要确保您的计算机上具有正确的环境设置，以便使用PHP开发Web.
