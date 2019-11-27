@@ -57,3 +57,181 @@ Web服务器
 PHP解析器 
 -为了处理PHP脚本指令，必须安装解析器以生成可以发送到Web浏览器的HTML输出。本教程将指导您如何在计算机上安装PHP解析器。
 在继续之前，重要的是要确保您的计算机上具有正确的环境设置，以便使用PHP开发Web.
+
+注释PHP代码
+```bash
+#this is a comment
+//this is the second coment
+/*
+this is a comment with multiline
+*/
+```
+
+php对空格不敏感
+
+php区分大小写
+
+可以在命令提示符号中运行PHP脚本
+
+变量：
+所有变量前面有$
+不必在分配之前分配变量
+变量没有内部类型，事先不知道是数字或者字符串
+
+有8种数据类型
+1.整数
+2.双精度
+3.布尔值
+4.NULL
+5.字符串
+6.数组
+7.对象
+8.资源 特殊变量，保存外部资源
+
+布尔值true的确定：
+1.数字精确的等于0为false
+2.字符串为空或者字符串‘0’为false
+3.NULL类型
+4.数组不包含其他值，
+5.不要将双精度作为布尔值
+
+字符串：
+''字符串按照字面来处理
+""用变量来替代变量
+\转移字符
+\n
+\r
+\t
+\$
+\"
+\\
+
+$变量替换
+
+变量范围
+1.局部变量
+2.功能参数
+3.全局变量
+4.静态变量
+
+变量命名
+1.字母或者下划线开头
+2.数字字母或者下划线组成，
+
+常量：
+定义一个常数
+```bash
+define("CON",50);
+```
+
+常量和变量之间的区别：
+1.不用在常量之前写$
+2.不能够直接通过简单的赋值来定义，要通过define
+3.在任意位置定义和访问常量，无需考虑作用域
+4.一旦设置了无法修改
+
+PHP为脚本提供了大量预订义常量
+
+决策：
+```bash
+if(condition)
+	...
+else
+	...
+
+if(condition)
+	...
+elseif(condition)
+	...
+else
+	...
+
+switch(expression)
+{
+	case label1:
+		...
+		break;
+	.
+	.
+	.
+
+	default:
+		...
+}
+```
+
+循环：
+```bash
+for(initialization;condition;increment)
+{
+
+}
+
+while(condition)
+{
+
+}
+
+do
+{
+
+}
+while(condition);
+
+//遍历数组
+foreach(array as value)
+{
+
+}
+
+break或者continue
+```
+
+网络概念：
+HTML页面中任何表单元素都会自动被PHP脚本所用。
+
+```bash
+<?php
+   if( $_POST["name"] || $_POST["age"] ) {
+      if (preg_match("/[^A-Za-z'-]/",$_POST['name'] )) {
+         die ("invalid name and name should be alpha");
+      }
+      
+      echo "Welcome ". $_POST['name']. "<br />";
+      echo "You are ". $_POST['age']. " years old.";
+      
+      exit();
+   }
+?>
+<html>
+   <body>
+   
+      <form action = "<?php $_PHP_SELF ?>" method = "POST">
+         Name: <input type = "text" name = "name" />
+         Age: <input type = "text" name = "age" />
+         <input type = "submit" />
+      </form>
+      
+   </body>
+</html>
+```
+
+有两种方式从浏览器客户端发送数据到网页服务器。
+1.get方法
+	1.1get方法产生一个长字符串，
+	1.2仅发送最多1024个字符
+	1.3敏感信息不要通过get发送
+	1.4不能将二进制数据例如图像和文档发送到服务器
+	1.5发送的数据可以通过query_string环境变量访问
+	1.6提供了$_get关联数组，访问所有已经发送 的信息
+
+2.post方法
+	2.1post方法对数据大小没有限制
+	2.2可以发送ASCII以及二进制数据
+	2.3POST数据通过HTTP标头传递
+	2.4提供$_POST关联数组，访问信息
+
+$_REQUEST变量
+包含$_GET，$_POST,$_COOKIE的内容
+
+
