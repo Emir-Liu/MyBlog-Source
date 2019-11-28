@@ -234,4 +234,30 @@ HTML页面中任何表单元素都会自动被PHP脚本所用。
 $_REQUEST变量
 包含$_GET，$_POST,$_COOKIE的内容
 
+会话：
+使数据能够跨整个网站的各个页面访问的方法。
 
+会话会在服务器的临时目录中创建一个文件，存储了已经注册的会话变量和值。在访问期间，该数据可以用于在网站上的所有界面。
+
+临时文件的位置由php.ini文件中的session.save_path确定。在使用会话变量前需要确保设置了路径。
+
+开启会话
+```bash
+session_start();
+```
+关闭会话：
+```bash
+unset($_SESSION['VARIABLE']);//取消单个会话变量
+session_destroy();//取消所有会话变量
+```
+
+开启自动会话：
+在php.ini文件中将session.auto_start置一
+当用户访问你的网站之后不必开启会话函数来开启会话。
+
+不用cookie的会话：
+当用户不允许将cookie保存在机器中，就有另一种方法价格你会话ID发送到浏览器中。
+
+你可以，在会话开始时使用固定的SID，如果客户端不发送一个忽而是的的会话cookie，session_name=session_id，或者它增加一个空的字符串，因此，你可以将它嵌入URL中。
+
+htmlspecialchars()可以防止XSS相关的攻击打印SID使用。
