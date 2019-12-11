@@ -261,3 +261,11 @@ session_destroy();//取消所有会话变量
 你可以，在会话开始时使用固定的SID，如果客户端不发送一个忽而是的的会话cookie，session_name=session_id，或者它增加一个空的字符串，因此，你可以将它嵌入URL中。
 
 htmlspecialchars()可以防止XSS相关的攻击打印SID使用。
+
+使用PHP发送电子邮件：
+在php.ini文件中正确配置PHP。详细说明系统如何发送文件。打开/ETC/目录中的php.ini文件。
+
+Linux用户需要PHP知道sendmail应用程序的位置，指定sendmail_path指令。
+
+1.安装sendmail程序：
+
