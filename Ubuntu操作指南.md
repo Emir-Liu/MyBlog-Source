@@ -157,3 +157,7 @@ jobs	//显示被暂停的工作
 sudo vim /etc/systemd/resolved.conf
 取消DNS注释：
 
+
+问题：
+如何在Ubuntu中使用AppImage文件：
+右键，属性，Allow executing file as program
