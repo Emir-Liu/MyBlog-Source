@@ -269,3 +269,7 @@ Linux用户需要PHP知道sendmail应用程序的位置，指定sendmail_path指
 
 1.安装sendmail程序：
 
+
+PHP从MySQL读取数据
+
+

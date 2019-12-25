@@ -161,3 +161,12 @@ sudo vim /etc/systemd/resolved.conf
 问题：
 如何在Ubuntu中使用AppImage文件：
 右键，属性，Allow executing file as program
+
+如何截图：
+
+Prt Sc
+进行整张屏幕的截取
+alt + Prt Sc
+进行当前窗口的截取
+shift + Prt Sc
+进行自由截图
