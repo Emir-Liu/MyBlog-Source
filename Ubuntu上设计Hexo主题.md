@@ -2,8 +2,8 @@
 title: Ubuntu上设计Hexo主题
 date: 2019-10-15 15:19:56
 tags:
-- Ubuntu
-- Hexo
+- ubuntu
+- hexo
 ---
 
 # 0 Hexo Theme

@@ -3,7 +3,7 @@ title: BitTorrent学习
 date: 2019-10-18 10:36:25
 tags:
 - p2p
-- BitTorrent
+- bitTorrent
 ---
 
 资料来源：

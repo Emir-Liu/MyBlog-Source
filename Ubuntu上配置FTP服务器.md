@@ -2,8 +2,8 @@
 title: Ubuntu上配置FTP服务器
 date: 2019-09-05 15:32:48
 tags: 
-- FTP
-- Ubuntu
+- ftp
+- ubuntu
 ---
 # 在Ubuntu上配置FTP服务器
 ## 1.安装VSFTPD服务器

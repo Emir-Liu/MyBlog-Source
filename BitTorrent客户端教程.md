@@ -2,8 +2,8 @@
 title: BitTorrent客户端教程
 date: 2019-10-18 18:54:06
 tags:
-- BitTorrent
-- Bencode
+- bitTorrent
+- bencode
 ---
 # 0 简介：
 Bencode是BitTorrent在传输数据结构的编码方式。

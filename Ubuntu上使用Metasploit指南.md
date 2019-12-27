@@ -1,7 +1,9 @@
 ---
 title: Ubuntu上使用Metasploit指南
 date: 2019-09-16 06:27:53
-tags: Metasploit
+tags:
+- ubuntu 
+- metasploit
 ---
 # 1.安装
 进入官网安装Metasploit，选择开源版本，进入到git找到Metasploit的快速安装方法。
