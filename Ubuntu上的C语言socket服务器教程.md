@@ -2,9 +2,9 @@
 title: Ubuntu上的C语言socket服务器教程
 date: 2019-10-20 20:26:26
 tags:
-- Ubuntu
+- ubuntu
 - socket
-- C/C++
+- c/c++
 ---
 
 # 0 简介
