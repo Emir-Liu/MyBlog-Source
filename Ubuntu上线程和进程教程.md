@@ -2,7 +2,7 @@
 title: Ubuntu上线程和进程教程
 date: 2019-10-20 22:12:19
 tags:
-- Ubuntu
+- ubuntu
 - 线程
 - 进程 
 ---

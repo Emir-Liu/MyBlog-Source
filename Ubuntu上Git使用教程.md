@@ -2,7 +2,7 @@
 title: Ubuntu上Git使用教程
 date: 2019-10-14 11:47:03
 tags:
-- Ubuntu
+- ubuntu
 - git
 ---
 

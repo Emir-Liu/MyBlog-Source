@@ -2,8 +2,8 @@
 title: Ubuntu上配置Apache服务器
 date: 2019-09-03 21:40:40
 tags: 
-- Apache
-- Ubuntu
+- apache
+- ubuntu
 ---
 # 如何在Ubuntu安装Apache Web 服务器
 ## 1.安装apache2包:
