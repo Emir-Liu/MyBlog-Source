@@ -2,7 +2,7 @@
 title: Ubuntu操作指南
 date: 2019-08-19 11:44:30
 tags: 
-- Ubuntu
+- ubuntu
 ---
 
 ## 输入法配置谷歌拼音

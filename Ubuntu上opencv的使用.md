@@ -4,7 +4,7 @@ date: 2019-09-23 20:41:41
 tags: 
 - opencv
 - python
-- Ubuntu
+- ubuntu
 ---
 
 # 1.Ubuntu上使用摄像头
