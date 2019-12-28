@@ -329,4 +329,10 @@ origin仓库的master分支
 //同步远程服务器上的数据到本地
 git fetch origin
 
-
+submodule:
+在某个仓库中有引用submodule时，clone不会下载submodule，我们需要进入工程然后
+```bash
+git submodule init
+git submodule update
+//这样就可以下载submodule了
+```
