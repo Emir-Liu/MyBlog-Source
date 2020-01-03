@@ -18,7 +18,7 @@ tags:
 看后缀就知道这个是汇编语言的文件，但是这是ARMCPU中的汇编和之前学过的x86CPU中的汇编不太一样可以参考GNU ARM Assembler Quick Reference文件来查询。
 
 启动文件主要的定义了：
-1. 初始SP //
+1. 初始SP //_estack变量就是SP(stack point),由连接文件定义
 2. 初始PC = Reset_Handler 复位中断
 3. 设置中断向量表的入口和 ISR地址
 //ISR就是中断服务处理 Interrupt Service Routines
@@ -76,25 +76,14 @@ label: .word value 将4字节的value放在由连接器分配的label地址上
 
 /*
 这是处理器在复位后首次开始执行时调用的代码，仅执行必要的设置，然后调用应用程序提供的main函数。
-*/
-/*
- .section <section_name> {,”<flags>”} 
- 开始一个新的代码或者数据区域。 
- GNU中区域有
-.text, a code section, 
-.data, an initialized data section,
-.bss, an uninitialized data section. 
-
-These sections have default flags, and the linker understands the default names (similar directive to the armasm directive AREA). 
-
-The following are allowable .section flags for ELF format files:
+.section <section_name> {,”<flags>”} 
+开始一个新的代码或者数据区域。 之前说过的三个区域有默认的标志，并且三个区域名称是连接器所默认的
+下面是一些区域的标志指示
 
 <Flag> Meaning
  a allowable section
  w writable section
  x executable section
-
- .text.Reset_Handler这个有点奇怪，有两个不太理解
 */
 
      .section    .text.Reset_Handler
@@ -105,26 +94,26 @@ The following are allowable .section flags for ELF format files:
      .type   Reset_Handler, %function
  Reset_Handler:  
  
-/* Copy the data segment initializers from flash to SRAM */
+/*下面这部分的含义是将flash中的数据段复制到SRAM中 */
    movs  r1, #0 //将立即数0赋值给r1寄存器
 /*
 arm CPU中的b指令和x86 CPU中的jmp指令类似。branch，无条件分支
 */
    b LoopCopyDataInit   //程序转移到LoopCopyDataInit处
  
- CopyDataInit://从FLASH中拷贝地址在sdata和edata之间的代码到SRAM中
-     ldr r3, =_sidata//从存储器中将_sidata加载到寄存器r3中
-     ldr r3, [r3, r1]//从地址r3+r1处读取一个字（32bit）到r3中  r3为基地址，r1为偏移地址
-     str r3, [r0, r1]//把寄存器r3的值存储到存储器中地址为r0+r1地址处
-     adds    r1, r1, #4//r1+4
+ CopyDataInit:
+     ldr r3, =_sidata   //从存储器中将_sidata加载到寄存器r3中
+     ldr r3, [r3, r1]   //从地址r3+r1处读取一个字（32bit）到r3中  r3为基地址，r1为偏移地址
+     str r3, [r0, r1]   //把寄存器r3的值存储到存储器中地址为r0+r1地址处
+     adds    r1, r1, #4 //r1+4
  
- LoopCopyDataInit://循环拷贝数据
+ LoopCopyDataInit:      //循环拷贝数据
 /*
 LDR (immediate offset)
 Load with immediate offset, pre-indexed immediate offset, or post-indexed immediate offset.
 */
-     ldr r0, =_sdata//DATA起始地址
-     ldr r3, =_edata//r3给出尾地址
+     ldr r0, =_sdata    //DATA起始地址
+     ldr r3, =_edata    //r3给出尾地址
 /*
 adds,如果算术指令的最后有s，就代表n,z,c,v符号位也会立即更新
 n == 0 (Negative)结果不是负数
@@ -132,26 +121,26 @@ z == 1 (Zero)结果是0
 c == 1 (Carry)有进位
 v == 0 (Overflow)溢出
 */     
-     adds    r2, r0, r1//r2为物理地址，r1为偏移地址，r0为基地址
+     adds    r2, r0, r1 //r2=r0+r1
 /*
 cmp r1,r2
 r1-r2,然后根据运算结果更新标志位
 */    
-     cmp r2, r3//r2和r3比较，地址还在data段
+     cmp r2, r3         //r2和r3比较，地址还在data段
 /*
 Branch if C is Clear当没有借位的时候跳转到下面
 */
      bcc CopyDataInit
-     ldr r2, =_sbss
-     b   LoopFillZerobss
+     ldr r2, =_sbss     //从存储器中将_sbss加载到寄存器r2中
+     b   LoopFillZerobss//循环置位bss段
  /* Zero fill the bss segment. */
  FillZerobss:
      movs    r3, #0
      str r3, [r2], #4
  
  LoopFillZerobss:
-     ldr r3, = _ebss
-     cmp r2, r3
+     ldr r3, = _ebss    //从存储器中将_ebss加载到寄存器r3中
+     cmp r2, r3         //同上
      bcc FillZerobss
 /*
 bl 有返回的跳转，
@@ -165,8 +154,244 @@ bl 有返回的跳转，
      bl __libc_init_array
  /* Call the application's entry point.*/
      bl  main
+/*
+bc lr类似于
+mov pc ,lr
+跳转到lr(链接寄存器)也就是返回地址
+*/
      bx  lr
  .size   Reset_Handler, .-Reset_Handler
+
+    .section    .text.Default_Handler,"ax",%progbits
+ Default_Handler://这就是上面说的默认中断，是一个死循环
+ Infinite_Loop:
+     b   Infinite_Loop
+     .size   Default_Handler, .-Default_Handler
+ /******************************************************************************
+ *
+ * The minimal vector table for a Cortex M3.  Note that the proper constructs
+ * must be placed on this to ensure that it ends up at physical address
+ * 0x0000.0000.
+ *
+ ******************************************************************************/
+     .section    .isr_vector,"a",%progbits
+     .type   g_pfnVectors, %object
+     .size   g_pfnVectors, .-g_pfnVectors
+g_pfnVectors://这就是上面说的中断向量表
+     .word   _estack
+     .word   Reset_Handler
+     .word   NMI_Handler
+     .word   HardFault_Handler
+     .word   MemManage_Handler
+     .word   BusFault_Handler
+     .word   UsageFault_Handler
+     .word   0
+     .word   0
+     .word   0
+     .word   0
+     .word   SVC_Handler
+     .word   DebugMon_Handler
+     .word   0
+     .word   PendSV_Handler
+     .word   SysTick_Handler
+     .word   WWDG_IRQHandler
+     .word   PVD_IRQHandler
+     .word   TAMPER_IRQHandler
+     .word   RTC_IRQHandler
+     .word   FLASH_IRQHandler
+     .word   RCC_IRQHandler
+     .word   EXTI0_IRQHandler
+     .word   EXTI1_IRQHandler
+     .word   EXTI2_IRQHandler
+     .word   EXTI3_IRQHandler
+     .word   EXTI4_IRQHandler
+     .word   DMA1_Channel1_IRQHandler
+     .word   DMA1_Channel2_IRQHandler
+     .word   DMA1_Channel3_IRQHandler
+     .word   DMA1_Channel4_IRQHandler
+     .word   DMA1_Channel5_IRQHandler
+     .word   DMA1_Channel6_IRQHandler
+     .word   DMA1_Channel7_IRQHandler
+     .word   ADC1_2_IRQHandler
+     .word   USB_HP_CAN1_TX_IRQHandler
+     .word   USB_LP_CAN1_RX0_IRQHandler
+     .word   CAN1_RX1_IRQHandler
+     .word   CAN1_SCE_IRQHandler
+     .word   EXTI9_5_IRQHandler
+     .word   TIM1_BRK_IRQHandler
+     .word   TIM1_UP_IRQHandler
+     .word   TIM1_TRG_COM_IRQHandler
+     .word   TIM1_CC_IRQHandler
+     .word   TIM2_IRQHandler
+     .word   TIM3_IRQHandler
+     .word   TIM4_IRQHandler
+     .word   I2C1_EV_IRQHandler
+     .word   I2C1_ER_IRQHandler
+     .word   I2C2_EV_IRQHandler
+     .word   I2C2_ER_IRQHandler
+     .word   SPI1_IRQHandler
+     .word   SPI2_IRQHandler
+     .word   USART1_IRQHandler
+     .word   USART2_IRQHandler
+     .word   USART3_IRQHandler
+     .word   EXTI15_10_IRQHandler
+     .word   RTCAlarm_IRQHandler
+     .word   USBWakeUp_IRQHandler
+   .word 0
+     .word   0
+     .word   0
+     .word   0
+     .word   0
+     .word   0
+     .word   0
+     .word   BootRAM       //0x108. This is for boot in RAM mode 
+   /*
+   下面的都是对中断函数进行弱申明
+   在工程中会在stm32f10x_it文件中重新申明
+   */
+   .weak NMI_Handler
+     .thumb_set NMI_Handler,Default_Handler
+ 
+   .weak HardFault_Handler
+     .thumb_set HardFault_Handler,Default_Handler
+ 
+   .weak MemManage_Handler
+     .thumb_set MemManage_Handler,Default_Handler
+ 
+   .weak BusFault_Handler
+     .thumb_set BusFault_Handler,Default_Handler
+ 
+     .weak   UsageFault_Handler
+     .thumb_set UsageFault_Handler,Default_Handler
+ 
+     .weak   SVC_Handler
+     .thumb_set SVC_Handler,Default_Handler
+ 
+     .weak   DebugMon_Handler
+     .thumb_set DebugMon_Handler,Default_Handler
+ 
+     .weak   PendSV_Handler
+     .thumb_set PendSV_Handler,Default_Handler
+ 
+     .weak   SysTick_Handler
+     .thumb_set SysTick_Handler,Default_Handler
+ 
+     .weak   WWDG_IRQHandler
+     .thumb_set WWDG_IRQHandler,Default_Handler
+ 
+     .weak   TAMPER_IRQHandler
+     .thumb_set TAMPER_IRQHandler,Default_Handler
+ 
+     .weak   RTC_IRQHandler
+     .thumb_set RTC_IRQHandler,Default_Handler
+ 
+     .weak   FLASH_IRQHandler
+     .thumb_set FLASH_IRQHandler,Default_Handler
+ 
+     .weak   RCC_IRQHandler
+     .thumb_set RCC_IRQHandler,Default_Handler
+ 
+     .weak   EXTI0_IRQHandler
+     .thumb_set EXTI0_IRQHandler,Default_Handler
+ 
+     .weak   EXTI1_IRQHandler
+     .thumb_set EXTI1_IRQHandler,Default_Handler
+ 
+     .weak   EXTI2_IRQHandler
+     .thumb_set EXTI2_IRQHandler,Default_Handler
+ 
+     .weak   EXTI3_IRQHandler
+     .thumb_set EXTI3_IRQHandler,Default_Handler
+ 
+     .weak   EXTI4_IRQHandler
+     .thumb_set EXTI4_IRQHandler,Default_Handler
+ 
+     .weak   DMA1_Channel1_IRQHandler
+     .thumb_set DMA1_Channel1_IRQHandler,Default_Handler
+ 
+     .weak   DMA1_Channel2_IRQHandler
+     .thumb_set DMA1_Channel2_IRQHandler,Default_Handler
+    .weak   DMA1_Channel3_IRQHandler
+     .thumb_set DMA1_Channel3_IRQHandler,Default_Handler
+ 
+     .weak   DMA1_Channel4_IRQHandler
+     .thumb_set DMA1_Channel4_IRQHandler,Default_Handler
+ 
+     .weak   DMA1_Channel5_IRQHandler
+     .thumb_set DMA1_Channel5_IRQHandler,Default_Handler
+ 
+     .weak   DMA1_Channel6_IRQHandler
+     .thumb_set DMA1_Channel6_IRQHandler,Default_Handler
+ 
+     .weak   DMA1_Channel7_IRQHandler
+     .thumb_set DMA1_Channel7_IRQHandler,Default_Handler
+ 
+     .weak   ADC1_2_IRQHandler
+     .thumb_set ADC1_2_IRQHandler,Default_Handler
+ 
+     .weak   USB_HP_CAN1_TX_IRQHandler
+     .thumb_set USB_HP_CAN1_TX_IRQHandler,Default_Handler
+ 
+     .weak   USB_LP_CAN1_RX0_IRQHandler
+     .thumb_set USB_LP_CAN1_RX0_IRQHandler,Default_Handler
+ 
+     .weak   CAN1_RX1_IRQHandler
+     .thumb_set CAN1_RX1_IRQHandler,Default_Handler
+ 
+     .weak   CAN1_SCE_IRQHandler
+     .thumb_set CAN1_SCE_IRQHandler,Default_Handler
+     .weak   EXTI9_5_IRQHandler
+     .thumb_set EXTI9_5_IRQHandler,Default_Handler
+ 
+     .weak   TIM1_BRK_IRQHandler
+     .thumb_set TIM1_BRK_IRQHandler,Default_Handler
+ 
+     .weak   TIM1_UP_IRQHandler
+     .thumb_set TIM1_UP_IRQHandler,Default_Handler
+ 
+     .weak   TIM1_TRG_COM_IRQHandler
+     .thumb_set TIM1_TRG_COM_IRQHandler,Default_Handler
+ 
+     .weak   TIM1_CC_IRQHandler
+     .thumb_set TIM1_CC_IRQHandler,Default_Handler
+ 
+     .weak   TIM2_IRQHandler
+     .thumb_set TIM2_IRQHandler,Default_Handler
+ 
+     .weak   TIM3_IRQHandler
+     .thumb_set TIM3_IRQHandler,Default_Handler
+ 
+     .weak   TIM4_IRQHandler
+     .thumb_set TIM4_IRQHandler,Default_Handler
+ 
+     .weak   I2C1_EV_IRQHandler
+     .thumb_set I2C1_EV_IRQHandler,Default_Handler
+ 
+     .weak   I2C1_ER_IRQHandler
+     .thumb_set I2C1_ER_IRQHandler,Default_Handler
+     .weak   SPI1_IRQHandler
+     .thumb_set SPI1_IRQHandler,Default_Handler
+ 
+     .weak   SPI2_IRQHandler
+     .thumb_set SPI2_IRQHandler,Default_Handler
+ 
+     .weak   USART1_IRQHandler
+     .thumb_set USART1_IRQHandler,Default_Handler
+ 
+     .weak   USART2_IRQHandler
+     .thumb_set USART2_IRQHandler,Default_Handler
+ 
+     .weak   USART3_IRQHandler
+     .thumb_set USART3_IRQHandler,Default_Handler
+ 
+     .weak   EXTI15_10_IRQHandler
+     .thumb_set EXTI15_10_IRQHandler,Default_Handler
+ 
+     .weak   RTCAlarm_IRQHandler
+     .thumb_set RTCAlarm_IRQHandler,Default_Handler
+ 
+     .weak   USBWakeUp_IRQHandler
+     .thumb_set USBWakeUp_IRQHandler,Default_Handler
 
 ```
 
