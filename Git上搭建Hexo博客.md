@@ -57,6 +57,7 @@ npm install hexo-renderer-marked --save
 npm install hexo-renderer-stylus --save
 npm install hexo-generator-feed --save
 npm install hexo-generator-sitemap --save
+npm install hexo-asset-image --save //用于在文章中添加图片
 ```
 测试
 ```bash
@@ -124,3 +125,9 @@ deploy:
 sudo npm install n -g
 sudo n stable
 node --version
+
+FAQ:
+1.npm : Depends: node-gyp (>= 0.10.9) but it is not going to be installed
+
+sudo apt-get install nodejs-dev node-gyp libssl1.0-dev
+sudo apt-get install npm

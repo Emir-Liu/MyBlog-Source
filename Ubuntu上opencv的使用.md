@@ -25,6 +25,8 @@ sudo apt install cheese	//camorama/cheese分别是两款应用程序
 # 2.1安装opencv
 ```bash
 sudo apt install python-opencv
+pip3 install python-opencv
+//通过pip3来下载
 ```
 
 # 3.1opencv操作方式
