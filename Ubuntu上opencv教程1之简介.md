@@ -46,6 +46,28 @@ sudo apt install cheese //camorama/cheese分别是两款应用程序
 ```
 
 ## 2.3opencv操作方式
+使用opencv需要使用pip来下载相关的包，但是下载源在国外，将下载源修改到国内就可以加速下载了。
+```bash
+pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple 包名
+//这个是使用清华的镜像源
+```
+上面是临时的方法，下面是永久的方法：
+```bash
+mkdir ~/.pip
+vim ~/.pip/pip.conf
+
+[global]
+index-url = http://mirrors.aliyun.com/pypi/simple
+[install]
+trusted-host = mirrors.aliyun.com
+```
+
+为了使用opencv需要使用python3中的包
+```bash
+pip3 install opencv-python
+```
+之后需要相关的包也这样下载
+
 ```bash
 import cv2
 path = "..."
