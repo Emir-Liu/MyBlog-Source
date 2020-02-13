@@ -93,13 +93,56 @@ Matplotlib是一个Python的绘制库，包含了大量的绘制函数，可以�
 
 # 2.视频入门
 
-## 2.1 捕获视频
+## 2.1 捕获视频和播放视频
 捕获视频需要创造VideoCapture对象，变量可以是设备目录或者视频文件的名字，设备目录只是指定摄像头的数字，之后就会一帧一帧地获取视频，最后不要忘记释放捕获。
 
 cap.read()返回一个bool值，如果帧被正确读取，返回1,所以可以通过检测返回值来检查是否视频结束。
 
-有时候，
+有时候，cap也许没有初始化摄像头，会显示错误，可以通过cap.isOpened()来判断是否初始化完成，如果返回1,继续，否则，使用cap.open()函数。
 
+你可以通过cap.get(propld)来获取视频的参数，使用cap.set(propld,value)来设置视频参数的值。
+例如，可以通过cap.get(3)和cap.get(4)检查帧的宽度和长度，默认宽长度是640×480。
+修改为320×240,需要
+```bash
+ret = cap.set(3,320)
+ret = cap.set(4,240)
+```
+如果你遇到错误，确保摄像头可以正常工作通过使用其他的摄像头程序，例如cheese。
+
+样例程序：
+```bash
+import cv2
+
+cap = cv2.VideoCapture(0)
+/*
+上面的是读取摄像头，如果读取视频文件那么就用下面的方法
+cap = cv2.VideoCapture('vtest.avi')
+*/
+while(True):
+    ret,frame = cap.read()
+    gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
+    cv2.imshow('frame',gray)
+    if cv2.waitKey(1) & 0xFF == ord('q')
+        break
+cap.release()
+cv2.destroyAllWindows()
+```
+注意里面cv2.waitKey()里面的参数，如果参数太小，视频播放就会非常快速，大的话就会播放速度很慢。25微秒是合适的。
+
+确保安装了合适版本的ffmpeg或者gstreamer，有时候版本不对会导致错误。
+
+## 2.2 保存视频
+
+我们捕获一个视频，一帧一帧地播放视频然后保存视频。
+保存图片只需要cv2.imwrite()，保存视频就稍微有些复杂。
+
+当我们创建了一个VideoWriter对象，我们应该确定输出文件的名称，然后我们应该确定FourCC代码，这个是什么，待定。然后fps每秒的帧数和帧的大小应该确定，最后是isColor标志，来确定是彩色还是灰度。
+
+FourCC是4字节的代码用来确定视频的解码器，我们可以使用下列的解码器In Fedora: DIVX, XVID, MJPG, X264, WMV1, WMV2. (XVID is more preferable. MJPG results in high size video. X264 gives very small size video)
+In Windows: DIVX (More to be tested and added)
+In OSX : (I don’t have access to OSX. Can some one fill this?)
+
+上面的待定，自己看
 
 
 ```bash
