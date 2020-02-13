@@ -87,5 +87,23 @@ k = cv2.waitKey(0)
 k = cv2.waitKey(0) & 0xFF
 
 ## 1.5 使用Matplotlib
-Matplotlib是一个Python的xx库，包含了大量的xx函数，可以使用Matplotlib来显示图片，选择图片区域以及保存它。
+Matplotlib是一个Python的绘制库，包含了大量的绘制函数，可以使用Matplotlib来显示图片，选择图片区域以及保存它。
+
+更多的待定补充
+
+# 2.视频入门
+
+## 2.1 捕获视频
+捕获视频需要创造VideoCapture对象，变量可以是设备目录或者视频文件的名字，设备目录只是指定摄像头的数字，之后就会一帧一帧地获取视频，最后不要忘记释放捕获。
+
+cap.read()返回一个bool值，如果帧被正确读取，返回1,所以可以通过检测返回值来检查是否视频结束。
+
+有时候，
+
+
+
+```bash
+import
+
+```
 
