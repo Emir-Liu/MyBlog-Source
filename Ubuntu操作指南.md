@@ -174,9 +174,23 @@ exit	//下载文件后退出root模式
 
 ```
 	2.强制解锁
+首先杀死apt进程
+```bash
+ps -a | grep apt
+kill -9 xxx
+```
+删除锁定文件
 ```bash
 sudo rm /var/cache/apt/archives/lock
 sudo rm /var/lib/dpkg/lock
+```
+强制重新配置软件包
+```bash
+sudo dpkg --configure -a
+```
+更新软件包源文件
+```bash
+sudo apt update
 ```
 
 ## 退出root模式时，显示There are stopped jobs
