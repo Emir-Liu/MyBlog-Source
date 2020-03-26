@@ -242,7 +242,88 @@ time = (e2 - e1)/ cv2.getTickFrequency()
 ```
 你可以直接使用time模块中的time.time()函数，取两个函数返回值的差大概。没有用过。
 
+## 3.2  opencv中默认的优化
+opencv中的许多函数都通过SSE2,AVX等进行了优化，它还包含了没有优化的代码。所以如果我们的系统支持这些特性，我们应该使用他们，几乎大多数现代处理器都支持他们。在编译的时候这些就默认使用了。所以，当默认使用的时候，opencv运行优化过的代码，否则运行没有优化过的代码。你可以使用cv2.useOptimized()函数来检查它是否已经启用，也可以使用cv2.setUseOptimized()来开启或者关闭优化。
+样例
+```bash
+# check if optimization is enabled
+In [5]: cv2.useOptimized()
+Out[5]: True
 
+In [6]: %timeit res = cv2.medianBlur(img,49)
+10 loops, best of 3: 34.9 ms per loop
 
+# Disable it
+In [7]: cv2.setUseOptimized(False)
 
-# 4.数学运算工具
+In [8]: cv2.useOptimized()
+Out[8]: False
+
+In [9]: %timeit res = cv2.medianBlur(img,49)
+10 loops, best of 3: 64.1 ms per loop
+```
+
+## 3.3 IPython中的检测性能
+首先，IPython是什么：
+它只是python中的一个模块，可以通过pip来安装。
+然后，它有什么用处：
+是python的交互式shell,比默认的python shell好用的多，支持自动缩进，bash shell命令，也内置了很多有用的函数以及功能，可以高效使用python,也是利用python来进行科学计算和交互可视化的平台。
+
+主要功能：
+1.运行ipython控制台
+2.使用ipython作为系统shell
+3.使用历史输入(history)
+4.Tab补全
+5.使用%run命令运行脚本
+6.使用%timeit命令快速测量时间
+7.使用%pdb命令快速debug
+8.使用pylab进行交互计算
+9.使用IPython Notebook
+
+但是，我居然还没用过。。。我直接找一些资料先补充。以后用到再说。
+样例
+```bash
+In [10]: x = 5
+
+In [11]: %timeit y=x**2
+10000000 loops, best of 3: 73 ns per loop
+
+In [12]: %timeit y=x*x
+10000000 loops, best of 3: 58.3 ns per loop
+
+In [15]: z = np.uint8([5])
+
+In [17]: %timeit y=z*z
+1000000 loops, best of 3: 1.25 us per loop
+
+In [19]: %timeit y=np.square(z)
+1000000 loops, best of 3: 1.16 us per loop
+```
+说实话，看到上面的样例，感觉有点像Linux中的time函数，我偶尔发现的。
+再次提醒，python的数值计算远快于numpy数值计算。所以仅包含一两个元素的运算，我们尽量使用python的数值运算，当数组的大小更大的时候使用numpy。
+```bash
+In [35]: %timeit z = cv2.countNonZero(img)
+100000 loops, best of 3: 15.8 us per loop
+
+In [36]: %timeit z = np.count_nonzero(img)
+1000 loops, best of 3: 370 us per loop
+```
+所以opencv函数比numpy函数快25倍，说实话，这是怎么算出来的？370/15.8,恩就这样。
+
+## 3.4 更多IPython的指令
+还有其他命令来测量性能，分析性能，行分析，存储空间测量等。
+
+## 3.5 优化性能的技巧
+注意，首先简单实现算法，之后分析，找到瓶颈对其优化。
+1.尽量不要在python中使用循环，尤其是多重循环
+2.numpy和opencv已经对向量运算进行了优化，因此尽量使用向量
+3.利用缓存？
+4.除非必要，不要复制数组，而是尝试使用视图。？？
+如果这样依旧无法解决问题，那么使用Cython库。
+
+# 4.opencv中的数学运算工具
+这里面很复杂，包含SVD和PCA。
+SVD Singular Value Decomposition奇异指分解 数值降维
+PCA Principal Component Analysis主成分分析 降维算法
+这两个方法我会专门进行补充。。待定
+
