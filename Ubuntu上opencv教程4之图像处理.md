@@ -11,10 +11,10 @@ tags:
 
 1.颜色空间的改变
 学习如何在不同的色彩空间来更改图像，此外还要学会如何跟踪视频中的彩色物体。
-2.图片的几何转换
-学习旋转，平移等。
-3.图片阈值处理
+2.图片阈值处理
 使用全局阈值和自适应阈值来将图像转换为二进制图像
+3.图片的几何转换
+学习旋转，平移等。
 4.平滑图像
 学习模糊图像，使用自定义内核过滤图像等。
 5.形态转换
@@ -133,9 +133,92 @@ while(1):
 
 cv2.destroyAllWindows()
 ```
+注意，这个里面会有很多噪音，之后我们需要学习如何消除噪音。
 
-# 2.图片的几何转换
-# 3.图片阈值处理
+这是物体追踪的最简单的方法。如果你学会了轮廓的函数，你可以做很多事情，例如找到物体的中心和追踪物体，只要在摄像头前移动你的手，就可以花图以及其他有趣的东西。
+
+如何找到追踪的HSV数值？
+这是非常常见的问题，你可以使用下面的方法,使用BGR来转换为HSV。
+注意，opencv是以BGR格式读取数据，我们需要将RGB进行转换。
+```bash
+>>> green = np.uint8([[[0,255,0 ]]])
+>>> hsv_green = cv2.cvtColor(green,cv2.COLOR_BGR2HSV)
+>>> print hsv_green
+[[[ 60 255 255]]]
+```
+然后你将[H-10,100,100]和[H+10,255,255]分别作为上下界。
+除了这个方法，你还可以通过图片编辑软件GIMP或者在线转换器来找到数值，不要忘记配合HSV的范围。
+
+# 2.图片阈值处理
+图片的阈值处理之前我们已经遇到过，我们还需要有自适应阈值处理。
+
+## 2.1 简单阈值
+直接看代码：
+```bash
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+img = cv2.imread('gradient.png',0)
+ret,thresh1 = cv2.threshold(img,127,255,cv2.THRESH_BINARY)
+ret,thresh2 = cv2.threshold(img,127,255,cv2.THRESH_BINARY_INV)
+ret,thresh3 = cv2.threshold(img,127,255,cv2.THRESH_TRUNC)
+ret,thresh4 = cv2.threshold(img,127,255,cv2.THRESH_TOZERO)
+ret,thresh5 = cv2.threshold(img,127,255,cv2.THRESH_TOZERO_INV)
+
+titles = ['Original Image','BINARY','BINARY_INV','TRUNC','TOZERO','TOZERO_INV']
+images = [img, thresh1, thresh2, thresh3, thresh4, thresh5]
+
+for i in xrange(6):
+    plt.subplot(2,3,i+1),plt.imshow(images[i],'gray')
+    plt.title(titles[i])
+    plt.xticks([]),plt.yticks([])
+
+plt.show()
+```
+上面使用了matplotlib绘制函数，可以复习一下。
+
+## 2.2 自适应阈值
+上面是我们使用了一个全局变量作为阈值，但是在有些条件下，图片有不同的光照条件，所以，在这种情况下，我们使用自适应的阈值。在这个方法中，我们需要计算图片中某一区域中的阈值。这样，我们在不同的区域中有不同的阈值，从而得到更好的图片结果。
+
+自适应阈值函数中有三个输入变量和一个输出变量：
+1.自适应规则：它决定了阈值的计算方法
+cv2.ADAPTIVE_THRESH_MEAN_C
+阈值设定为附近区域的中间值
+cv2.ADAPTIVE_THRESH_GAUSSIAN_C
+阈值取决于高斯窗口附近区域值的加权相加。大概是这么翻译的。又见高斯。。。
+2.区块大小：决定了附近区域的大小
+3.常数：一个从平均值或者加权平均值中减去的常数。
+
+下面是两个阈值的比较
+```bash
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+img = cv2.imread('dave.jpg',0)
+img = cv2.medianBlur(img,5)
+
+ret,th1 = cv2.threshold(img,127,255,cv2.THRESH_BINARY)
+th2 = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_MEAN_C,\
+            cv2.THRESH_BINARY,11,2)
+th3 = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,\
+            cv2.THRESH_BINARY,11,2)
+
+titles = ['Original Image', 'Global Thresholding (v = 127)',
+            'Adaptive Mean Thresholding', 'Adaptive Gaussian Thresholding']
+images = [img, th1, th2, th3]
+
+for i in xrange(4):
+    plt.subplot(2,2,i+1),plt.imshow(images[i],'gray')
+    plt.title(titles[i])
+    plt.xticks([]),plt.yticks([])
+plt.show()
+```
+上面的程序中有一个中值滤波来模糊化图片，能够有效地抑制噪声，从而消除孤立的噪声点。
+cv2.medianBlur()
+
+# 3.图片的几何转换
 # 4.平滑图像
 # 5.形态转换
 # 6.图像渐变
