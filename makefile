@@ -10,5 +10,5 @@ deploy:
 	hexo g
 	hexo d
 	git add -A
-	git commit -m"1"
+	git commit -m "UpDate"
 	git push
