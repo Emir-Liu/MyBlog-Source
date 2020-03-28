@@ -224,7 +224,25 @@ ksize:孔径大小,必须是奇数，而且大于1。
 
 这个函数通过中值滤波，在ksize×ksize的孔径中过滤，每个频道可以分别运算。
 
+下面是最重要的自适应函数部分，
+```bash
+cv2.adaptiveThreshold(src, maxValue, adaptiveMethod, thresholdType, blockSize, C[, dst]) → dst
+```
+其中，
+src:8位单通道图片
+dst:有和原图片相同大小和类型的目标图片
+maxValue:非0值，和之前的阈值函数一样
+adaptiveMethod:自适应阈值的算法，类型有:
+ADAPTIVE_THRESH_MEAN_C和ADAPTIVE_THRESH_GAUSSIAN_C
+thresholdType:阈值类型有THRESH_BINARY或者THRESH_BINARY_INV
+blockSize:像素区域的大小，3,5,7等等。
+C:常数，用来将平均值和加权平均值减去的数字。
 
+## 2.3 大津二值化算法
+Otsu’s Binarization说实话，我不明白这是个人名还是什么的。
+介绍一下，这是最大类间方差法，是一种自动确定二值化阈值的算法。
+推导过程暂放，说一说它的结论:
+S<sub>2</sub>
 
 # 3.图片的几何转换
 # 4.平滑图像
