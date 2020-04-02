@@ -380,11 +380,76 @@ INTER_LANCZOS4:8x8临域像素点上的Lanczos插值
 1 0 t<sub>x</sub>
 0 1 t<sub>y</sub>
 
+我们可以建立np.float32类新的数组，然后将变量传递到cv2.warpAffine
+例如:
+```bash
+import numpy as np
+
+img = cv2.imread('messi5.jpg',0)
+rows,cols = img.shape
+
+M = np.float32([[1,0,100],[0,1,50]])
+dst = cv2.warpAffine(img,M,(cols,rows))
+
+cv2.imshow('img',dst)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+```
+这样，图片就进行了平移的操作。
+
 ## 3.3 旋转
+旋转的角度x,可以变换为变换矩阵M:
+
+cosx -sinx
+sinx cosx
+
+但是，opencv提供了以合适的旋转中心缩放旋转的函数，所以你可以旋转你所需要的角度和位置，可以将转换矩阵修改为
+
+a   b   (1-a)*center.x-b*center.y
+-b  a   b*center.x+(1-a)*center.y
+
+其中:
+
+a=scale*cosx
+b=scale*sinx
+
+opencv提供了cv2.getRotationMatrix2D函数，用来获取上面的转换矩阵。
+下面的例子中，以图片的中心逆时针旋转90度。
+```bash
+img = cv2.imread('messi5.jpg',0)
+rows,cols = img.shape
+
+M = cv2.getRotationMatrix2D((cols/2,rows/2),90,1)
+dst = cv2.warpAffine(img,M,(cols,rows))
+```
+其中:
+cv2.getRotationMatrix2D()的变量有
+旋转中心，旋转角度，放大或缩小系数。
 
 ## 3.4 仿射变换
+在仿射变换中，所有原图片中的平行线将会在输出图片中保持平行。
+为了找到变换矩阵，我们需要原图片中的三个点，和输出图片中对应的位置。然后，cv2.getAffineTransform()会建立一个2×3的矩阵作为cv2.warpAffine()的输入变量。
+
+下面的例子中，选取的点用绿色来标记。
+
+```bash
+img = cv2.imread('drawing.png')
+rows,cols,ch = img.shape
+
+pts1 = np.float32([[50,50],[200,50],[50,200]])
+pts2 = np.float32([[10,100],[200,50],[100,250]])
+
+M = cv2.getAffineTransform(pts1,pts2)
+
+dst = cv2.warpAffine(img,M,(cols,rows))
+
+plt.subplot(121),plt.imshow(img),plt.title('Input')
+plt.subplot(122),plt.imshow(dst),plt.title('Output')
+plt.show()
+```
 
 ## 3.5 透视变换
+
 
 # 4.平滑图像
 # 5.形态转换
