@@ -251,11 +251,142 @@ M<sub>0</sub>，M<sub>1</sub>:
 两个类的像素值的平均值
 
 里面第二个变量是retVal，当我们使用大津二值化算法就用到它。
-在全局阈值的情况下，我们使用一个任意值作为阈值。那么我们怎么看这个数值是好是坏呢？试错。考虑一个bimodal图像，就是直方图有两个峰值。
-
+在全局阈值的情况下，我们使用一个任意值作为阈值。那么我们怎么看这个数值是好是坏呢？试错。考虑一个双峰图像，就是直方图有两个峰值。
 对于那种图片，我们可以大概选取这两个峰值之间的数值来作为阈值。那么，大津二值化方法就是自动选取阈值，对于其他图片没有办法计算。
 
+因此，cv2.threshold()函数使用了，传入了一个其他的标志，cv2.THRESH_OTSU，将0赋值给阈值。然后，这个算法就会找到合适的阈值并且将它作为第二个返回值，retVal。如果不使用大津二值化方法，retVal就会是你所使用的阈值。
+
+例如，将一个充满噪声的图片输入，分别进行下列操作:
+1.使用一个全局阈值127
+2.使用大津二值化算法
+3.5×5的高斯滤波，然后使用大津二值化算法。
+```bash
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+img = cv2.imread('noisy2.png',0)
+
+# global thresholding
+ret1,th1 = cv2.threshold(img,127,255,cv2.THRESH_BINARY)
+
+# Otsu's thresholding
+ret2,th2 = cv2.threshold(img,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+
+# Otsu's thresholding after Gaussian filtering
+blur = cv2.GaussianBlur(img,(5,5),0)
+ret3,th3 = cv2.threshold(blur,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+
+# plot all the images and their histograms
+images = [img, 0, th1,
+          img, 0, th2,
+          blur, 0, th3]
+titles = ['Original Noisy Image','Histogram','Global Thresholding (v=127)',
+          'Original Noisy Image','Histogram',"Otsu's Thresholding",
+          'Gaussian filtered Image','Histogram',"Otsu's Thresholding"]
+
+for i in xrange(3):
+    plt.subplot(3,3,i*3+1),plt.imshow(images[i*3],'gray')
+    plt.title(titles[i*3]), plt.xticks([]), plt.yticks([])
+    plt.subplot(3,3,i*3+2),plt.hist(images[i*3].ravel(),256)
+    plt.title(titles[i*3+1]), plt.xticks([]), plt.yticks([])
+    plt.subplot(3,3,i*3+3),plt.imshow(images[i*3+2],'gray')
+    plt.title(titles[i*3+2]), plt.xticks([]), plt.yticks([])
+plt.show()
+```
+这里只有一些函数需要补充。
+```bash
+plt.hist():用来表示直方图
+等等，省略了相关的内容
+```
+顺便，大津二值方法可以直接用下面的代码实现:
+```bash
+img = cv2.imread('noisy2.png',0)
+blur = cv2.GaussianBlur(img,(5,5),0)
+
+# find normalized_histogram, and its cumulative distribution function
+hist = cv2.calcHist([blur],[0],None,[256],[0,256])
+hist_norm = hist.ravel()/hist.max()
+Q = hist_norm.cumsum()
+
+bins = np.arange(256)
+
+fn_min = np.inf
+thresh = -1
+
+for i in xrange(1,256):
+    p1,p2 = np.hsplit(hist_norm,[i]) # probabilities
+    q1,q2 = Q[i],Q[255]-Q[i] # cum sum of classes
+    b1,b2 = np.hsplit(bins,[i]) # weights
+
+    # finding means and variances
+    m1,m2 = np.sum(p1*b1)/q1, np.sum(p2*b2)/q2
+    v1,v2 = np.sum(((b1-m1)**2)*p1)/q1,np.sum(((b2-m2)**2)*p2)/q2
+
+    # calculates the minimization function
+    fn = v1*q1 + v2*q2
+    if fn < fn_min:
+        fn_min = fn
+        thresh = i
+
+# find otsu's threshold value with OpenCV function
+ret, otsu = cv2.threshold(blur,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+print thresh,ret
+```
+
 # 3.图片的几何转换
+学习平移，旋转，仿射变换等。
+使用下面的函数cv2.getPerspectiveTransform
+
+## 3.0 转换
+opencv有两个变换函数cv2.warpAffine和cv2.warpPerspective。
+通过这两个函数可以使用任意种类的变换:
+cv2.warpAffine采用2×3变换矩阵，
+cv2.warpPerspective将3×3个变换矩阵作为输入
+
+## 3.1 比例缩放
+缩放修改图片的大小，opencv包含一个cv2.resize()函数。可以手动指定图像的大小，也可以指定缩放系数。使用不同的插值方法。推荐的插值方法是cv2.INTER_AREA收缩和cv2.INTER_CUBIC(慢)和cv2.INTER_LINEAR(快速)
+默认使用cv2.INTER_LINEAR插值方法，可以使用下面的方法来实现修改图片大小。
+```bash
+import cv2
+import numpy as np
+
+img = cv2.imread('messi5.jpg')
+
+res = cv2.resize(img,None,fx=2, fy=2, interpolation = cv2.INTER_CUBIC)
+
+#OR
+
+height, width = img.shape[:2]
+res = cv2.resize(img,(2*width, 2*height), interpolation = cv2.INTER_CUBIC)
+```
+cv2.resize(src, dsize[, dst[, fx[, fy[, interpolation]]]]) → dst
+变量有:
+src :输入图片
+dst :输出图片
+dsize:输出图片的大小，如果为0,则通过下面的公式计算:
+dsize = size(round(fx*src.cols),round(fy*src.rows))
+fx,fy:分别是缩放系数
+interpolation:插值方法
+INTER_NEAREST:最近临插值法
+INTER_LINEAR:双线性插值法，默认
+INTER_AREA: 使用像素区域重新采样。它可能是图像抽取的首选方法，因为它提供了无莫尔的结果。但是，当图像被缩放时，它类似于INTER_NEAREST方法。
+INTER_CUBIC:4×4临域像素点上的bixubic插值(双三次插值)
+INTER_LANCZOS4:8x8临域像素点上的Lanczos插值
+
+## 3.2 平移
+平移是修改物体的位置，如果知道平移的方向(t<sub>x</sub>,t<sub>y</sub>)，可以建立一个转换矩阵。
+```bash
+1 0 t<sub>x</sub>
+0 1 t<sub>y</sub>
+```
+
+## 3.3 旋转
+
+## 3.4 仿射变换
+
+## 3.5 透视变换
+
 # 4.平滑图像
 # 5.形态转换
 # 6.图像渐变
