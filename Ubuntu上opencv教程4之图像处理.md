@@ -376,10 +376,9 @@ INTER_LANCZOS4:8x8临域像素点上的Lanczos插值
 
 ## 3.2 平移
 平移是修改物体的位置，如果知道平移的方向(t<sub>x</sub>,t<sub>y</sub>)，可以建立一个转换矩阵。
-```bash
+
 1 0 t<sub>x</sub>
 0 1 t<sub>y</sub>
-```
 
 ## 3.3 旋转
 
