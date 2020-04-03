@@ -449,9 +449,126 @@ plt.show()
 ```
 
 ## 3.5 透视变换
+对于透视变换，我们需要一个3×3变换矩阵。在变换前后，直线始终笔直。
+为了找到这个变换矩阵，我们需要输入图片的四个点并且输出图片中相对应的点。在这四个点中，它们中的三个不能共线。然后通过cv2.getPerspectiveTransform函数来找到变换矩阵，然后在cv2.warpPerspective中使用3×3变换矩阵。
+可以看到下面的例子:
+```bash
+img = cv2.imread('sudokusmall.png')
+rows,cols,ch = img.shape
 
+pts1 = np.float32([[56,65],[368,52],[28,387],[389,390]])
+pts2 = np.float32([[0,0],[300,0],[0,300],[300,300]])
+
+M = cv2.getPerspectiveTransform(pts1,pts2)
+
+dst = cv2.warpPerspective(img,M,(300,300))
+
+plt.subplot(121),plt.imshow(img),plt.title('Input')
+plt.subplot(122),plt.imshow(dst),plt.title('Output')
+plt.show()
+```
 
 # 4.平滑图像
+使用各种低通滤波器来平滑图像。
+对图像使用自定义过滤器(二维卷积)
+
+## 4.1 二维卷积(图片过滤)
+对于一维的信号，图片可以通过低通滤波器来滤波(LPF),高通滤波器(HPF)等等。一个LPF可以用于消除噪音，或者模糊图像。一个HPF可以找到图片中的边缘。
+
+opencv提供了cv2.filter2D()函数，用图像来卷积内核。下面的例子中，我们将会对图像进行平均滤波，一个5×5的平均滤波器内核K的定义是。
+
+25K =
+
+1 1 1 1 1
+1 1 1 1 1
+1 1 1 1 1
+1 1 1 1 1
+1 1 1 1 1
+
+使用上面的滤波器内核进行过滤的结果是，对于每个像素，5×5窗口以该像素所为中心，将该窗口内的所有像素相加，然后将结果除以25。
+
+```bash
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+img = cv2.imread('opencv_logo.png')
+
+kernel = np.ones((5,5),np.float32)/25
+dst = cv2.filter2D(img,-1,kernel)
+
+plt.subplot(121),plt.imshow(img),plt.title('Original')
+plt.xticks([]), plt.yticks([])
+plt.subplot(122),plt.imshow(dst),plt.title('Averaging')
+plt.xticks([]), plt.yticks([])
+plt.show()
+```
+其中:
+cv2.filter2D(src, ddepth, kernel[, dst[, anchor[, delta[, borderType]]]]) → dst
+变量:
+ddepth:目标图片的深度，如果为负数，它将会和原图片的深度相同。
+其他的变量可以缺省，暂时待定。
+
+## 4.2 图片模糊(平滑图像)
+图像模糊是通过卷积图像与低通滤波核来实现的。它对消除噪音很有用。
+它实际上会从图像中移除高频内容（例如：噪声、边缘），从而在应用此 滤波器时导致边缘模糊。（当然，有些模糊技术不会模糊边缘）。OpenCV主要提供四种模糊技术。
+
+### 4.2.1 均值
+这是通过卷积图像与一个规范化的盒子过滤器。它只需要取内核区域下所有像素的平均值，并用该平均值替换中心元素。这是通过函数blur或boxFilter完成。我们应该指定内核的宽度和高度。一个5x5规格化的盒式过滤器如下所示:
+```bash
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+img = cv2.imread('opencv_logo.png')
+
+blur = cv2.blur(img,(5,5))
+
+plt.subplot(121),plt.imshow(img),plt.title('Original')
+plt.xticks([]), plt.yticks([])
+plt.subplot(122),plt.imshow(blur),plt.title('Blurred')
+plt.xticks([]), plt.yticks([])
+plt.show()
+```
+注意，如果不想使用规范化的框过滤器，请使用cv2.boxFilter并将参数normalize=False传递给函数。
+
+### 4.2.2 高斯滤波
+在这种方法中，使用高斯核替代了由相同的系数组成的盒子过滤器。
+使用了cv2.GaussianBlur函数。
+我们应该确定核心的高度和宽度，他们必须是正奇数。
+同时，我们需要设定X和Y方向的标准偏差，分别为sigmaX和sigmaY。
+如果只设定了sigmaX,那么sigmaY的数值相同。如果都为0,那么通过核心的大小来计算标准偏差。
+高斯滤波在图片中消除高斯噪声中有很有效。
+
+可以通过cv2.getGaussianKernel函数来获取高斯核心。
+上面的代码可以修改为
+```bash
+blur = cv2.GaussianBlur(img,(5,5),0)
+```
+
+### 4.2.3 中值滤波
+cv2.medianBlur函数可以计算出核心区域中像素点的中间值，并且将中间的像素点的数值修改为中间值。这个方法可以高效消除椒盐噪声。
+在高斯和平均滤波中，过滤之后的数值可能在原图像中并不存在。
+然而，中值滤波中，因为中心元素总是被图像中的某个像素值代替，这有效地降低了噪音。内核大小必须是正奇数。
+```bash
+median = cv2.medianBlur(img,5)
+```
+
+### 4.2.4 双边滤波
+正如之前注意到的，前面的滤波器都会将边缘模糊。双边滤波器cv2.bilateralFilter会在保留边缘的情况下，非常有效地消除噪声。
+但是与其他滤波器相比，速度会更慢。
+原理没有看懂。。尴尬。直接看需要的参数。
+```bash
+blur = cv2.bilateralFilter(img,9,75,75)
+```
+cv2.bilateralFilter()中变量有:
+src:原图像
+dst:目标图像
+d:像素临域的直径，如果小于0,则通过sigmaSpace计算
+sigmaColor:在颜色空间中过滤sigma，参数值越大，像素临域中更多的颜色将会混合在一起。从而，产生更大的混合颜色区域。大概是这个意思。
+sigmaSpace:
+在坐标空间中过滤sigma。参数值越大，意味着更远的像素将相互影响，只要它们的颜色足够接近（参见sigmaColor）。当d>0时，它指定邻域大小，而不考虑sigmaSpace。否则，d与sigmaSpace成比例。
+
 # 5.形态转换
 # 6.图像渐变
 # 7.Canny边缘检测
