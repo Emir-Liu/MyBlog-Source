@@ -593,21 +593,173 @@ erosion = cv2.erode(img,kernel,iterations = 1)
 ## 5.2 扩张
 和侵蚀相反，当内核中至少一个像素为1时，那么那个像素为1。所以，它增加了白色区域的大小或者前景物体增加。
 
-正常情况下，噪声消除的情况下，侵蚀之后会扩张。因为，侵蚀消除了白噪音，但是也会缩小了我们的目标。所以我们把它放大。既然噪声消失了
+正常情况下，噪声消除的情况下，侵蚀之后会扩张。因为，侵蚀消除了白噪音，但是也会缩小了我们的目标。所以我们把它放大。既然噪声消失,但是我们的区域缩小了。它在分割图像上也有用处。
+```bash
+dilation = cv2.dilate(img,kernel,iterations = 1)
+```
+
 ## 5.3 打开
+打开是侵蚀之后扩张的别称。对于消除噪声很有效。说实话，在看这部分的时候哪个在前哪个在后，傻傻分不清楚。
+```bash
+opening = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
+```
 
 ## 5.4 关闭
+关闭是扩张之后侵蚀的别称。可以消除前景物体的空洞。
+```bash
+closing = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
+```
 
 ## 5.5 形态梯度
+这是扩张和侵蚀之间的差。表现为物体的轮廓。
+```bash
+gradient = cv2.morphologyEx(img, cv2.MORPH_GRADIENT, kernel)
+```
 
 ## 5.6 Top Hat(高帽?)
+原始图片-打开运算(先腐蚀后扩张)后的图片。
+```bash
+tophat = cv2.morphologyEx(img, cv2.MORPH_TOPHAT, kernel)
+```
 
 ## 5.7 Black Hat(黑帽?)
+关闭运算(先扩张后腐蚀)后的图片-原始图片。
+```bash
+blackhat = cv2.morphologyEx(img, cv2.MORPH_BLACKHAT, kernel)
+```
 
 ## 5.8 结构元素
+我们通常使用Numpy来建立构造元素在之前的例子里面，是矩形的。但是在一些情况下，有时候我们需要椭圆或者圆形的核心。
+因此有一个函数getStructuringElement。你可以将形状和大小传递进去，然后得到需要的核心。
+```bash
+# Rectangular Kernel
+>>> cv2.getStructuringElement(cv2.MORPH_RECT,(5,5))
+array([[1, 1, 1, 1, 1],
+       [1, 1, 1, 1, 1],
+       [1, 1, 1, 1, 1],
+       [1, 1, 1, 1, 1],
+       [1, 1, 1, 1, 1]], dtype=uint8)
+
+# Elliptical Kernel
+>>> cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(5,5))
+array([[0, 0, 1, 0, 0],
+       [1, 1, 1, 1, 1],
+       [1, 1, 1, 1, 1],
+       [1, 1, 1, 1, 1],
+       [0, 0, 1, 0, 0]], dtype=uint8)
+
+# Cross-shaped Kernel
+>>> cv2.getStructuringElement(cv2.MORPH_CROSS,(5,5))
+array([[0, 0, 1, 0, 0],
+       [0, 0, 1, 0, 0],
+       [1, 1, 1, 1, 1],
+       [0, 0, 1, 0, 0],
+       [0, 0, 1, 0, 0]], dtype=uint8)
+```
 
 # 6.图像渐变
+这部分我们需要学习。
+找到图片渐变，边缘等。
+使用下列的函数:
+cv2.Sobel()
+cv2.Scharr()
+cv2.Laplacian()
+
+## 6.0 理论
+opencv提供了三种类型的梯度滤波器或者高通滤波器:Sobel,Scharr和Laplacian。
+## 6.0.1 Sobel-Scharr导数
+来了，来了。Sobel算子是一种高斯平滑加微分的联合算子，因此对噪声的抵抗能力更强。可以指定要获取的垂直或水平导数的方向（分别由参数yorder和xorder指定）。还可以通过参数ksize指定内核的大小。如果ksize=-1，则使用3x3Scharr滤波器，其结果比3x3Sobel滤波器更好。
+
+## 6.0.2 拉普拉斯导数
+待定。。。
+
+## 6.1 代码
+```bash
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+img = cv2.imread('dave.jpg',0)
+
+laplacian = cv2.Laplacian(img,cv2.CV_64F)
+sobelx = cv2.Sobel(img,cv2.CV_64F,1,0,ksize=5)
+sobely = cv2.Sobel(img,cv2.CV_64F,0,1,ksize=5)
+
+plt.subplot(2,2,1),plt.imshow(img,cmap = 'gray')
+plt.title('Original'), plt.xticks([]), plt.yticks([])
+plt.subplot(2,2,2),plt.imshow(laplacian,cmap = 'gray')
+plt.title('Laplacian'), plt.xticks([]), plt.yticks([])
+plt.subplot(2,2,3),plt.imshow(sobelx,cmap = 'gray')
+plt.title('Sobel X'), plt.xticks([]), plt.yticks([])
+plt.subplot(2,2,4),plt.imshow(sobely,cmap = 'gray')
+plt.title('Sobel Y'), plt.xticks([]), plt.yticks([])
+
+plt.show()
+```
+
+## 6.2 一件重要的事情
+在上一个示例中，输出数据类型是cv2.CV_8U或np.uint8。
+但有一个小问题。黑白过渡为正斜率（有正值），黑白过渡为负斜率（有负值）。因此，当您将数据转换为np.uint8时，所有负斜率都设为零。
+简单地说，你错过了这一点。
+如果要检测两条边，更好的选择是将输出数据类型保持为一些更高的形式，如cv2.CV_16S、cv2.CV_64F等。取其绝对值，然后转换回cv2.CV_8U。下面的代码演示了水平Sobel筛选器的此过程和结果差异。
+```bash
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+img = cv2.imread('box.png',0)
+
+# Output dtype = cv2.CV_8U
+sobelx8u = cv2.Sobel(img,cv2.CV_8U,1,0,ksize=5)
+
+# Output dtype = cv2.CV_64F. Then take its absolute and convert to cv2.CV_8U
+sobelx64f = cv2.Sobel(img,cv2.CV_64F,1,0,ksize=5)
+abs_sobel64f = np.absolute(sobelx64f)
+sobel_8u = np.uint8(abs_sobel64f)
+
+plt.subplot(1,3,1),plt.imshow(img,cmap = 'gray')
+plt.title('Original'), plt.xticks([]), plt.yticks([])
+plt.subplot(1,3,2),plt.imshow(sobelx8u,cmap = 'gray')
+plt.title('Sobel CV_8U'), plt.xticks([]), plt.yticks([])
+plt.subplot(1,3,3),plt.imshow(sobel_8u,cmap = 'gray')
+plt.title('Sobel abs(CV_64F)'), plt.xticks([]), plt.yticks([])
+
+plt.show()
+```
+
 # 7.Canny边缘检测
+这部分内容主要有:
+Canny边缘检测的概念
+opencv中的cv2.Canny函数
+
+## 7.0 理论
+
+
+### 7.0.1 降噪
+
+### 7.0.2 找到图片的强度梯度
+
+### 7.0.3 非最大抑制
+
+### 7.0.4 滞后阈值
+
+## 7.1 opencv中的Canny边缘检测
+```bash
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+img = cv2.imread('messi5.jpg',0)
+edges = cv2.Canny(img,100,200)
+
+plt.subplot(121),plt.imshow(img,cmap = 'gray')
+plt.title('Original Image'), plt.xticks([]), plt.yticks([])
+plt.subplot(122),plt.imshow(edges,cmap = 'gray')
+plt.title('Edge Image'), plt.xticks([]), plt.yticks([])
+
+plt.show()
+```
+
 # 8.影像金字塔
 # 9.opencv中的轮廓
 # 10.opencv中的直方图
