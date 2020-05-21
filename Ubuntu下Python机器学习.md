@@ -2,8 +2,8 @@
 title: Ubuntu下Python机器学习
 date: 2020-01-13 14:48:16
 tags:
-- Ubuntu
-- Python
+- ubuntu
+- python
 - 机器学习
 ---
 
