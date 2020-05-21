@@ -31,13 +31,47 @@ Python中的数据库，来看一看。
 ## 4.1下载数据
 从公共链接中下载titanic数据集。
 ```bash
-import urllib
-//一个收集了多个涉及URL的模块，具体的内容在下面补充
+import urllib.request
+#一个收集了多个涉及URL的模块，具体的内容在下面补充
 url = "https://raw.githubusercontent.com/GokuMohandas/practicalAI/master/data/titanic.csv"
-//感觉这个部分已经找不到了，有点可惜
+#这个部分无法正常访问。这是github上的部分文件的存储部分，应该可以直接访问，下载资源的。简而言之，就是被域名污染了。解决方法，下面补充。
 response = urllib.request.urlopen(url)
 html = response.read()
 with open('titanic.csv', 'wb') as f:
     f.write(html)
 ```
+从python3的手册可以看出，urllib.request是用于打开URL的可扩展库。
+注意，这里和Python2相比有不同，2中直接是urllib。需要区分。
+而且不要把两个手册弄混。
 
+其实，这部分主要是熟悉Python，可以直接用一个可以访问的网站实验一下，我的仓库中有整个项目，可以将整个项目下载，之后继续。
+域名去污：
+1.查询真实IP
+通过IPAddress.com首页,输入raw.githubusercontent.com查询到真实IP地址。
+
+2.修改hosts
+CentOS及macOS直接在终端输入
+
+sudo vi /etc/hosts
+用以下的格式来写就可以了
+```bash
+199.232.4.133 raw.githubusercontent.com
+```
+
+```bash
+!ls -l
+# 检查数据是否已经下载成功
+# 我有必要说一下，这个指令非常的有趣，显示内容很详细。
+```
+
+## 4.2 加载数据
+有了数据之后，我们将数据加载到Pandas数据帧中。补充，Pandas是一个很好的Python数据分析库。
+```bash
+import pandas as pd
+
+#从CSV中读取到Pandas DataFrame
+df = pd.read_csv("titanic.csv",header=0)
+#输出前5项数据
+df.head()
+```
+上面的程序建议通过ipython来观察输出。
