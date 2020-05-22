@@ -75,3 +75,22 @@ df = pd.read_csv("titanic.csv",header=0)
 df.head()
 ```
 上面的程序建议通过ipython来观察输出。
+
+## 4.3 探索
+pandas有很多的功能，但是，有一个问题，我总是把Python2和Python3混在一起，感觉他们之间有区别但是没有完全理解。
+
+绘制直方图：
+```bash
+ import pandas as pd
+ import matplotlib.pyplot as plt 
+ df = pd.read_csv("titanic.csv",header=0)
+ 
+ print(df.head())
+ 
+ print(df.describe())
+ 
+ df["age"].plot.hist()
+ 
+ plt.show()
+```
+话说，自己经常使用Python3，却还是混起来了。之后，关于这个的我会补充。下面是线性回归，逻辑回归之类的问题。
