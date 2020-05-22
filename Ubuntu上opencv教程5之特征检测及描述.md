@@ -58,4 +58,21 @@ SIFT和SURF各有利弊，但是如果你的应用中，每年都为使用他们
 
 那么，假如我们在图像中找到了特征，那么，我们需要在其他图像中找到相同的内容。我们该怎么做？
 
-我们
+我们围绕该特征选取一个区域，用自己的话语来解释这个特征，例如，颜色大小等特征，然后在其他图像中搜索相同的区域，来在其他图像中找到他。这些表述称之为功能描述。获得功能描述后，可以在所有的图像中找到相同的功能并且将他们对齐或者缝合等操作。
+
+在这个模式里，我们用opencv中的不同算法来查找功能，进行描述，进行匹配。
+
+# 2. (Harris)哈里斯角检测
+首先，我们可以知道角就是图像中各个方向上强度变化很大的区域。
+1988年Chris Harris和Mike Stephens在论文组合式拐角和边缘检测器中尝试找到这些拐角。也就是哈里斯拐角检测器。然后形成了一个数学形式。
+https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_features_harris/py_features_harris.html
+上面是部分证明过程。
+# 3. Shi-Tomasi拐角检测和良好的跟踪功能
+# 4. SIFT(Scale-Invariant Feature Transform)尺度不变特征变换
+# 5. SURF(Speeded-Up Robust Features)加速鲁棒特征
+# 6. 用于角点检测的快速算法
+# 7. BRIEF(Binary Robust Independent Elementary Features)二进制健壮的独立基本特征
+# 8. ORB(Oriented FAST and Rotated BRIEF)定向快速和旋转BRIEF
+# 9. 特征匹配
+# 10. 特征匹配和单应性查找对象
+
