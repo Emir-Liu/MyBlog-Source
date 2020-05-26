@@ -63,10 +63,48 @@ SIFT和SURF各有利弊，但是如果你的应用中，每年都为使用他们
 在这个模式里，我们用opencv中的不同算法来查找功能，进行描述，进行匹配。
 
 # 2. (Harris)哈里斯角检测
+
+## 2.1 理论
 首先，我们可以知道角就是图像中各个方向上强度变化很大的区域。
 1988年Chris Harris和Mike Stephens在论文组合式拐角和边缘检测器中尝试找到这些拐角。也就是哈里斯拐角检测器。然后形成了一个数学形式。
 https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_features_harris/py_features_harris.html
 上面是部分证明过程。
+
+## 2.2 opencv中哈里斯角检测
+Opencv中有cv2.cornerHarris()函数，里面有变量:
+img 
+输入图片，灰度图而且为float32类型。
+blockSize
+角检测附近区域的大小
+ksize
+使用的Sobel导数的孔径参数
+k
+方程中的哈里斯检测器自由参数
+```bash
+ import cv2 
+ import numpy as np
+ 
+ filename = 'chessboard.png'
+ img = cv2.imread(filename)
+ gray= cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+ 
+ gray= np.float32(gray)
+ dst = cv2.cornerHarris(gray,2,3,0.04)
+ 
+ dst = cv2.dilate(dst,None)
+ 
+ img[dst>0.01*dst.max()] = [0,0,255]
+ 
+ cv2.imshow('dst',img)
+ 
+ if cv2.waitKey(0) & 0xff == 27: 
+     cv2.destroyAllWindows()
+```
+
+## 2.3 亚像素精度的拐角
+什么是亚像素，就是将两个像素之间进行细分，将每个像素划分为更小的单元。
+有时候，你需要获取最大精度的角。opencv提供了一个函数cv2.cornerSubPix()函数来重新获取亚精度的拐角。首先，我们需要获取Harris拐角，然后，我们将这些拐角的中心传递到函数中，来重新获取它们。在这个函数中，我们需要定义精度来确定什么时候停止。
+
 # 3. Shi-Tomasi拐角检测和良好的跟踪功能
 # 4. SIFT(Scale-Invariant Feature Transform)尺度不变特征变换
 # 5. SURF(Speeded-Up Robust Features)加速鲁棒特征
