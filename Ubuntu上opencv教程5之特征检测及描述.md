@@ -104,6 +104,36 @@ k
 ## 2.3 亚像素精度的拐角
 什么是亚像素，就是将两个像素之间进行细分，将每个像素划分为更小的单元。
 有时候，你需要获取最大精度的角。opencv提供了一个函数cv2.cornerSubPix()函数来重新获取亚精度的拐角。首先，我们需要获取Harris拐角，然后，我们将这些拐角的中心传递到函数中，来重新获取它们。在这个函数中，我们需要定义精度来确定什么时候停止。
+```bash
+import cv2
+import numpy as np
+
+filename = 'chessboard2.jpg'
+img = cv2.imread(filename)
+gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+
+# find Harris corners
+gray = np.float32(gray)
+dst = cv2.cornerHarris(gray,2,3,0.04)
+dst = cv2.dilate(dst,None)
+ret, dst = cv2.threshold(dst,0.01*dst.max(),255,0)
+dst = np.uint8(dst)
+
+# find centroids
+ret, labels, stats, centroids = cv2.connectedComponentsWithStats(dst)
+
+# define the criteria to stop and refine the corners
+criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 100, 0.001)
+corners = cv2.cornerSubPix(gray,np.float32(centroids),(5,5),(-1,-1),criteria)
+
+# Now draw them
+res = np.hstack((centroids,corners))
+res = np.int0(res)
+img[res[:,1],res[:,0]]=[0,0,255]
+img[res[:,3],res[:,2]] = [0,255,0]
+
+cv2.imwrite('subpixel5.png',img)
+```
 
 # 3. Shi-Tomasi拐角检测和良好的跟踪功能
 # 4. SIFT(Scale-Invariant Feature Transform)尺度不变特征变换
