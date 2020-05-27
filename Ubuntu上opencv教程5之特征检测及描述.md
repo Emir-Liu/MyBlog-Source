@@ -134,8 +134,33 @@ img[res[:,3],res[:,2]] = [0,255,0]
 
 cv2.imwrite('subpixel5.png',img)
 ```
+这一部分有些不太了解，待定。
 
 # 3. Shi-Tomasi拐角检测和良好的跟踪功能
+这一部分我们需要重新学习一种拐角检测方式:Shi-Tomasi拐角检测
+
+## 3.1 理论
+这部分待定，主要是将Harris拐角检测的公式进行了简化，看看就行。
+
+## 3.2 代码
+```bash
+import cv2
+from matplotlib import pyplot as plt
+#读取图片，然后转换为灰度图
+img = cv2.imread('simple.jpg')
+gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+
+#通过goodFeaturesToTrack函数通过Shi-Tomasi获取25个最有效的拐角
+corners = cv2.goodFeaturesToTrack(gray,25,0.01,10)
+corners = np.int0(corners)
+
+for i in corners:
+    x,y = i.ravel()
+    cv2.circle(img,(x,y),3,255,-1)
+
+plt.imshow(img),plt.show()
+```
+
 # 4. SIFT(Scale-Invariant Feature Transform)尺度不变特征变换
 # 5. SURF(Speeded-Up Robust Features)加速鲁棒特征
 # 6. 用于角点检测的快速算法
