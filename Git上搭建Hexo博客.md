@@ -131,3 +131,35 @@ FAQ:
 
 sudo apt-get install nodejs-dev node-gyp libssl1.0-dev
 sudo apt-get install npm
+
+2.npm: Not compatible with your operating system or architecture:
+更新npm的版本
+```bash
+sudo npm install -g npm
+```
+
+3.在博客中插入图片
+之前一直没有插入图片，导致阅读总觉得缺了点什么，现在补上:
+1.安装模块
+```bash
+npm install https://github.com/CodeFalling/hexo-asset-image --save
+```
+在hexo文件夹中输入上面的命令。
+
+2.修改全局文件
+然后在全局_config.yml中修改
+```bash
+post_asset_folder:true
+```
+
+3.使用
+但使用hexo new 来新建文件的时候会出现一个博客文件和文件夹，名字相同，类似于:
+```bash
+.
+├── test
+├── test.md
+```
+插入图片的时候只要有:
+```bash
+![](test/cat.jepg)
+```
