@@ -161,5 +161,5 @@ post_asset_folder:true
 ```
 插入图片的时候只要有:
 ```bash
-![](test/cat.jepg)
+![](test/cat.jpeg)
 ```

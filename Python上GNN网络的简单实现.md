@@ -77,7 +77,7 @@ train_loss, train_acc, test_acc = train(node_list=list(map(lambda x:x[0], N)),
                                         label_list=list(map(lambda x:x[1], N)),
                                         T=5)
 ```
-下面是训练的具体内容
+下面是训练的具体内容，在这里，我们需要先补充一下关于torch中的
 ```bash
 # 开始训练模型
 def train(node_list, edge_list, label_list, T, ndict_path="./node_dict.json"):

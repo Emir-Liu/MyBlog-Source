@@ -163,6 +163,14 @@ Icon=/home/eglym/pycharm-community-2019.2.3/bin/pycharm.png
 
 ```
 
+## 如何直接通过命令行控制
+/usr/bin是用于存放第三方软件的快捷方式，只要程序放在这里，在终端就可以直接通过命令行来启动，以谷歌浏览器为例，将其安装后，可以看见该目录下有google-chrome文件。
+```bash
+google-chrome
+```
+就可以直接用命令行来运行程序了。
+
+
 # FAQ:
 ## 用apt下载文件时遇到 /var/lib/dpkg/lock - open (13: 权限不够)问题：
 解决方式：
