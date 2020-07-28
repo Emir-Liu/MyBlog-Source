@@ -39,3 +39,17 @@ Python中的这三种数据类型有不同的作用，分别代表不同的Pytho
 {'jon': 'boy', 'lili': 'girl'}
 ```
 
+# Python下载第三方模块，下载速度慢，如何换源
+'''
+mkdir ~/.pip
+vim ~/.pip/pip.conf
+'''
+
+'''
+[global]
+index-url = http://pypi.douban.com/simple
+[install]
+use-mirrors =true
+mirrors =http://pypi.douban.com/simple/
+trusted-host =pypi.douban.com
+'''
