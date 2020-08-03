@@ -128,7 +128,73 @@ PyTorch是一个优化的张量操作库，它提供了一系列用于深度学�
 
 将文本分为令牌Tokens的过程称为令牌化tokenization。
 
+首先，以下面的推特作为例子:
+```bash
+Snow White and Seven Degress #MakeAMovieCold @midnight
+```
+上面的#MakeMovieCold标签应该是一个令牌还是4个令牌，许多论文没有太多的关注，许多令牌化决策往往是任意的，但是，这些决策在实践中对准确性的影响比公认的大很多，通常被认为是预处理的繁琐工作，大多数开源NLP包为令牌化提供了合理的支持，举了NLTK和Spacy的例子，这是两个用于文本处理的常用包。
+```bash
+Input[1]:
+from nltk.tokenize import TweetTokenizer
+tweet=u"Snow White and the Seven Degrees
+    #MakeAMovieCold@midnight:-)"
+tokenizer = TweetTokenizer()
+print(tokenizer.tokenize(tweet.lower()))
+Output[1]:
+['snow', 'white', 'and', 'the', 'seven', 'degrees', '#makeamoviecold', '@midnight', ':-)']
+```
+类型是语料库中的唯一的令牌，语料库中所有类型的集合就是它的词汇表或者词典。词可以分为内容词和停止词。像冠词和介词这样的限定词主要是为了达到语法的目的，就像填充物来支撑着内容词一样。
+
+## 2.2 Unigrams,Bigrams,Trigrams,...,Ngrams
+ngram是文本中出现的固定长度n的连续令牌序列。bigram有两个令牌，unigram只有一个令牌。从文本生成ngram非常简单，但是nltk提供了简单方法。
+```bash
+def n_grams(text, n):
+    '''
+    takes tokens or text, returns a list of n grams
+    '''
+    return [text[i:i+n] for i in range(len(text)-n+1)]
+
+cleaned = ['mary', ',', "n't", 'slap', green', 'witch', '.']
+print(n_grams(cleaned, 3))
+```
+对于子词(subword)信息本身携带有用信息的某些情况，可能需要生成字符ngram。例如，“methanol”中的后缀“-ol”表示它是一种醇;如果您的任务涉及到对有机化合物名称进行分类，那么您可以看到ngram捕获的子单词(subword)信息是如何有用的。在这种情况下，您可以重用相同的代码，除了将每个字符ngram视为令牌。(这里的subword应该是值类似前缀后缀这种完整单词中的一部分)
+
+## 2.3 Categorizing Sentences and Documents 对文档或句子进行归类
+对文档或句子进行归类可能是NLP最早的应用之一，我们在之前的TF和TF-IDF表示中，对于较长的文本块，例如文档或者句子进行分类非常有用。主题标签的分配、评论情绪的检测、垃圾邮件的过滤，语言识别和邮件分类等问题可以定义为受监督的文档分类问题。
+还有一种半监督的方法，只用了一个小的部分数据，但是这个方法暂时不考虑。
+
+## 2.4 对字进行分类 POS 标签
+我们可以将标记的概念从文档扩展到单词或者标记。分类词的一个常见的方法是词性标注。
+```bash
+import nltk
+
+document = 'Whether you\'re new to programming or an experienced developer, it\'s easy to learn and use Python.'
+sentences = nltk.sent_tokenize(document)
+for sent in sentences:
+    print(nltk.pos_tag(nltk.word_tokenize(sent)))
+```
+输出:
+```bash
+[('Whether', 'IN'), ('you', 'PRP'), ("'re", 'VBP'), ('new', 'JJ'), ('to', 'TO'), ('programming', 'VBG'), ('or', 'CC'), ('an', 'DT'), ('experienced', 'JJ'), ('developer', 'NN'), (',', ','), ('it', 'PRP'), ("'s", 'VBZ'), ('easy', 'JJ'), ('to', 'TO'), ('learn', 'VB'), ('and', 'CC'), ('use', 'VB'), ('Python', 'NNP'), ('.', '.')]
+```
+词性的表达方式:
+```bash
+CC  并列连词          NNS 名词复数        UH 感叹词
+CD  基数词              NNP 专有名词        VB 动词原型
+DT  限定符            NNP 专有名词复数    VBD 动词过去式
+EX  存在词            PDT 前置限定词      VBG 动名词或现在分词
+FW  外来词            POS 所有格结尾      VBN 动词过去分词
+IN  介词或从属连词     PRP 人称代词        VBP 非第三人称单数的现在时
+JJ  形容词            PRP$ 所有格代词     VBZ 第三人称单数的现在时
+JJR 比较级的形容词     RB  副词            WDT 以wh开头的限定词
+JJS 最高级的形容词     RBR 副词比较级      WP 以wh开头的代词
+LS  列表项标记         RBS 副词最高级      WP$ 以wh开头的所有格代词
+MD  情态动词           RP  小品词          WRB 以wh开头的副词
+NN  名词单数           SYM 符号            TO  to
+```
+
 # 3.神经网络基础组建
+
 # 4.自然语言处理前馈网络Feed-Forward Networks
 # 5.Embedding Words and Types
 # 6.自然语言处理Sequence Modeling
