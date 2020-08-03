@@ -10,6 +10,7 @@ tags:
 PyTorch自然语言处理（Natural Language Processing with PyTorch）
 
 主要内容:自然语言处理NLP和深度学习，公式部分没有详细的分析。
+示例代码:原书中有Spacy模块，但我偏向于NLTK模块来实现
 
 章节：
 
@@ -193,7 +194,45 @@ MD  情态动词           RP  小品词          WRB 以wh开头的副词
 NN  名词单数           SYM 符号            TO  to
 ```
 
+## 2.5 分块Chunking和浅解析Shallow parsing
+浅解析的目的是，推导出由名词、动词、形容词等语法原子组成的高阶的单位，如果没有训练浅解析模型的数据，可以在词性标记上编写正则表达式来近似浅解析。幸运的是，对于英语和最广泛使用的语言来说，这样的数据和预先训练的模型是存在的。
+```bash
+
+```
+
+## 2.6 句子树
+浅层解析识别短语单位，而识别它们之间关系的任务称为解析(parsing)。例如，用图来表示句子。
+![](句子树.png)
+
+解析树(Parse tree)表示句子中不同的语法单元在层次上是如何相关的。另一种可能更有用的显示关系的方法是使用依赖项解析(dependency parsing)，如下图表示:
+![](依赖解析.png)
+
+## 2.7 单词含义
+单词有意义，而且通常不止一个。一个词的不同含义称为它的意义(senses)。WordNet是一个长期运行的词汇资源项目，它来自普林斯顿大学，旨在对所有英语单词(嗯，大部分)的含义以及其他词汇关系进行分类。
+![](词汇资源项目.png)
+
+上面的WordNet项目已经花费了数十年，即使在现在的方法，例如神经网络和深度学习方法的背景下使用现有的语言资源。
+词的意义也可以从上下文中归纳出来。从文本中自动发现词义实际上是半监督学习在自然语言处理中的第一个应用。尽管这部分没有详细学习，但资源:Jurasky and Martin(2014)，第17章，Manning and Schutze(1999)，第7章
+
+参考文献:
+Manning, Christopher D., and Hinrich Schütze. (1999). Foundations of statistical natural language processing. MIT press.
+
+Bird, Steven, Ewan Klein, and Edward Loper. (2009). Natural language processing with Python: analyzing text with the natural language toolkit. O’Reilly Media.
+
+Smith, Noah A. (2011). “Linguistic structure prediction.” Synthesis lectures on human language technologies.
+
+Jurafsky, Dan, and James H. Martin. (2014). Speech and language processing. Vol. 3. London: Pearson.
+
+Russell, Stuart J., and Peter Norvig. (2016). Artificial intelligence: a modern approach. Malaysia: Pearson Education Limited.
+
+Zheng, Alice, and Casari, Amanda. (2018). Feature Engineering for Machine Learning: Principles and Techniques for Data Scientists. O’Reilly Media, Inc.
+
 # 3.神经网络基础组建
+这部分的内容可以直接参考我的博客上神经网络与深度学习的基础知识(Emir-Liu.github.io)。
+
+那么，直接开始实际的操作。
+
+第一个万丈
 
 # 4.自然语言处理前馈网络Feed-Forward Networks
 # 5.Embedding Words and Types
