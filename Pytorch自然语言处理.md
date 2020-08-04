@@ -229,7 +229,7 @@ Zheng, Alice, and Casari, Amanda. (2018). Feature Engineering for Machine Learni
 
 # 3.神经网络基础组建
 这部分的内容可以直接参考我的博客上神经网络与深度学习的基础知识(Emir-Liu.github.io)。
-
+![](激活函数.png)
 那么，直接开始实际的操作。
 
 第一个万丈
