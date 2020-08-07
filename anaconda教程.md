@@ -9,13 +9,13 @@ Anaconda是开源的包、环境管理器，里面包含大量安装好的工具
 # 1.Anaconda环境切换及使用：
 
 查看当前的环境
-'''bash
+```bash
 conda info -e
 python -V
-'''
+```
 
 新建环境，选择python版本
-'''bash
+```bash
 conda create --name torch0.3 python=3.5
 其中 torch0.3是新环境的名字，python=3.5是选择的python版本
 #conda create --name python32 --clone python321
@@ -29,18 +29,18 @@ conda deactivate
 
 删除一个已有的环境
 conda remove --name torch0.3 --all
-'''
+```
 
 我需要一个pytorch0.3版本，但是官网上已经没有wins下的该版本，所以直接使用anaconda官网下的链接进行下载
-'''bash
+```bash
 conda install -c peterjc123 pytorch
-'''
+```
 
 我们建立了新的环境，但是spyder依旧是过去的怎么版。安装新spyder，然后打开spyder
-'''bash
+```bash
 conda install spyder
 spyder
-'''
+```
 
 # FAQ:
 ## 在Spyder中如何弹出窗口动态显示图片：
