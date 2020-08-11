@@ -37,7 +37,12 @@ Softmax在机器学习和深度学习中有着非常广泛的应用。尤其在�
 ![](Seq2Seq模型Softmax公式.webp)
 对于RNN，对于某个序列，对于时序t，它的词向量输出概率为P(xt|x1,x2,...,xt-1)，则softmax层每个神经元的计算如下。
 ![](神经元计算公式.svg)
-其中ht是隐含状态，它与上一时刻的状态及当前输入有关，即ht=f(h<sub>t-1</sub>,xt)
+其中ht是隐含状态，它与上一时刻的状态及当前输入有关，即h<sub>t</sub>=f(h<sub>t-1</sub>,x<sub>t</sub>)
+那么整个序列的概率就为:
+![](序列的概率.svg)
+![](RNNDecodeEncode模型.webp)
+
+而对于encoder-decoder模型，设有输入序列x<sub>1</sub>,x<sub>2</sub>，x<sub>3</sub>,...,x<sub>T</sub>,输出序列y<sub>1</sub>，y<sub>2</sub>,y<sub>3</sub>，...,y<sub>T</sub>，输入序列和输出序列的长度可能不同。那么其实就需要根据输入序列去得到输出序列可能输出的词概率，于是有下面的条件概率，￼发生的情况下，￼发生的概率等于￼连乘，如下公式所示。其中v表示￼对应的隐含状态向量，它其实可以等同表示输入序列。
 
 
 Seq2Seq模型:https://dataxujing.github.io/seq2seqlearn/chapter2/
