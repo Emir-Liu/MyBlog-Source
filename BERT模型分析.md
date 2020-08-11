@@ -28,6 +28,18 @@ RNN是可以学习概率分布，然后进行预测，比如我们输入t时刻�
 Softmax在机器学习和深度学习中有着非常广泛的应用。尤其在处理多分类（C > 2）问题，分类器最后的输出单元需要Softmax 函数进行数值处理。关于Softmax 函数的定义如下所示：
 ![](softmax.svg)
 
+其中，Vi是分类器前级输出单元的输出。i表示类别索引，总的类别个数为C,表示的是当前元素的指数与所有元素指数和的比值。Softmax 将多分类的输出数值转化为相对概率，更容易理解和比较。我们来看下面这个例子。
+一个多分类问题，C = 4。线性分类器模型最后输出层包含了四个输出值，分别是：
+![](math输入.svg)
+通过Softmax处理之后，数值转化为相对概率:
+![](math输出.svg)
+很明显，Softmax 的输出表征了不同类别之间的相对概率。我们可以清晰地看出，S1 = 0.8390，对应的概率最大，则更清晰地可以判断预测为第1类的可能性更大。Softmax 将连续数值转化成相对概率，更有利于我们理解。
+![](Seq2Seq模型Softmax公式.webp)
+对于RNN，对于某个序列，对于时序t，它的词向量输出概率为P(xt|x1,x2,...,xt-1)，则softmax层每个神经元的计算如下。
+![](神经元计算公式.svg)
+其中ht是隐含状态，它与上一时刻的状态及当前输入有关，即ht=f(h<sub>t-1</sub>,xt)
+
+
 Seq2Seq模型:https://dataxujing.github.io/seq2seqlearn/chapter2/
 
 部分教程:https://towardsml.com/2019/09/17/bert-explained-a-complete-guide-with-theory-and-tutorial/
