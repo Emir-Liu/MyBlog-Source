@@ -8,6 +8,49 @@ tags:
 论文:BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding
 模型的整体框架就是一个seq2seq结构
 模型:借鉴于Attention Is All You Need中的Encoder
+
+![](AttentionIsAllYouNeed.png)
+完全由注意力机制构成，其分为左右两部分:
+左侧:编码器部分
+N=6
+All Layers output size 512
+Embedding
+Positional Encoding
+![](PositionalEncoding.png)
+Notice the Residual connection
+Multi-head Attention
+LayerNorm(x + Sublayer(x))
+Position wise feed forward
+
+右侧:解码器部分
+N=6
+All Layers output size 512
+Embedding
+Positional Encoding
+Notice the Residual connection
+Multi-head Attention
+![](Multi-headAttention.png)
+LayerNorm(x + Sublayer(x))
+Position wise feed forward
+Softmax
+![](SoftMax.png)
+
+其中，解码器中的Multi-head Attention的原理:
+![](Multi-HeadAttention模型.png)
+其中点乘注意力模型为:
+![](ScaledDotProductAttention.png)
+公式:
+![](Attention模型.png)
+多注意力模型公式:
+![](多注意力模型公式.png)
+其中，公式中的Q，K，V的定义为:
+编码器-解码器注意力层中，序列Q来自之前的解码器层，记忆力关键词K和数值V来自编码器的输出。
+这三个变量都来自之前的层(hidden state)
+
+然后是Feed Forward前馈网络Position-wise Feed-Forward network
+![](PositionWiseFeedForwardNetwork.png)
+
+
 Attention Is All You Need解析:https://www.jianshu.com/p/b1030350aadb
 Seq2Seq模型的简介:https://www.jianshu.com/p/b2b95f945a98
 Seq2Seq模型是输出的长度不确定时采用的模型，这种情况一般是在机器翻译的任务中出现，将一句中文翻译成英文，那么这句英文的长度有可能会比中文短，也有可能会比中文长，所以输出的长度就不确定了。如下图所，输入的中文长度为4，输出的英文长度为2。
@@ -43,6 +86,7 @@ Softmax在机器学习和深度学习中有着非常广泛的应用。尤其在�
 ![](RNNDecodeEncode模型.webp)
 
 而对于encoder-decoder模型，设有输入序列x<sub>1</sub>,x<sub>2</sub>，x<sub>3</sub>,...,x<sub>T</sub>,输出序列y<sub>1</sub>，y<sub>2</sub>,y<sub>3</sub>，...,y<sub>T</sub>，输入序列和输出序列的长度可能不同。那么其实就需要根据输入序列去得到输出序列可能输出的词概率，于是有下面的条件概率，￼发生的情况下，￼发生的概率等于￼连乘，如下公式所示。其中v表示￼对应的隐含状态向量，它其实可以等同表示输入序列。
+
 
 
 Seq2Seq模型:https://dataxujing.github.io/seq2seqlearn/chapter2/
