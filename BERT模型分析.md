@@ -7,8 +7,35 @@ tags:
 来源:
 论文:BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding
 模型的整体框架就是一个seq2seq结构
-模型:借鉴于Attention Is All You Need中的Encoder
+Google AI Language
+NLP中的预训练:
+词嵌入是NLP深度学习的基础
 
+![](词向量.png)
+词嵌入(word2vec,GloVe)是通过共现文本对统计，对文本语料库进行预训练
+![](共现文本对统计.png)
+
+上下文表示:
+之前的问题:
+词嵌入是应用于与上下文无关的方式
+![](与上下文无关的词嵌入.png)
+
+解决方法:
+在语料库中训练上下文表示。
+![](与上下文相关的词嵌入.png)
+
+上下文相关的表示方法:
+半监督的序列学习,Google,2015
+![](半监督的序列学习.png)
+
+ELMo:深度上下文词嵌入，2017
+![](深度上下文词嵌入.png)
+
+通过通用的预训练来提升语言理解OpenAL,2018
+![](通过通用预训练来提升语言理解.png)
+
+
+模型:借鉴于Attention Is All You Need中的Encoder
 ![](AttentionIsAllYouNeed.png)
 完全由注意力机制构成，其分为左右两部分:
 左侧:编码器部分
