@@ -4,6 +4,11 @@ date: 2020-08-10 10:05:49
 tags:
 ---
 # 0.简介
+Transformer和Bert之间的关系:
+Transformer模型是2017年谷歌发表的论文attention is all you need中提出的seq2seq模型。现在已经取得了大范围的应用和扩展，而BERT就是从transformer中衍生出来的预训练语言模型
+
+BERT使用TensorFlow，2018年提供了BERT的PyTorch版本Transformer
+
 来源:
 论文:BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding
 模型的整体框架就是一个seq2seq结构
