@@ -19,6 +19,8 @@ Ubuntu18
 配置Hexo
 建立本地库
 
+<!-- more -->
+
 ## 安装必要环境
 ### Git
 sudo apt install git
@@ -140,19 +142,19 @@ sudo npm install -g npm
 
 3.在博客中插入图片
 之前一直没有插入图片，导致阅读总觉得缺了点什么，现在补上:
-1.安装模块
+3.1安装模块
 ```bash
 npm install https://github.com/CodeFalling/hexo-asset-image --save
 ```
 在hexo文件夹中输入上面的命令。
 
-2.修改全局文件
+3.2修改全局文件
 然后在全局_config.yml中修改
 ```bash
 post_asset_folder:true
 ```
 
-3.使用
+3.3使用
 但使用hexo new 来新建文件的时候会出现一个博客文件和文件夹，名字相同，类似于:
 ```bash
 .
@@ -163,3 +165,11 @@ post_asset_folder:true
 ```bash
 ![](test/cat.jpeg)
 ```
+
+4.如何在开头仅显示部分文章，当点击之后才会显示全部文章
+在文章的内容中插入一行:
+```bash
+<!-- more -->
+```
+那么文章仅仅显示这一行前面的内容，之后的内容需要点击之后才会显示。这样博客的开始就干净许多了。
+

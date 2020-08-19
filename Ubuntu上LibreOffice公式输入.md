@@ -10,9 +10,51 @@ tags:
 ```bash
 基础操作
 newline 换行
+alignl  左对齐
+alignc  中间对齐
+alignr  右对齐
 
-符号操作
+数学位置操作
+binom{<?>}{<?>}     上下标
+{<?>} over {<?>}    上下分数形式
+<?>^{<?>}           上标
+<?>_{<?>}           下标
+sum from{<?>} <?>   叠加
 
+数学符号
+partial 偏导符号
+odot    圆圈里有一个点
 
+希腊符号
+%alpha
+%beta
+%gamma
+%delta
+%varepsilon
+%zeta
+%eta
+%theta
+%iota
+%kappa
+%lambda
+%mu
+%nu 
+%xi 
+%omicron 
+%pi 
+%rho 
+%varsigma
+%sigma 
+%tau 
+%upsilon 
+%varphi 
+%chi 
+%psi 
+%omega 
+%vartheta
+%phi 
+%varpi 
+%varrho 
+%epsilon
 ```
 
