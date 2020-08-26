@@ -143,6 +143,19 @@ sudo apt [--yes --force-yes] install  文件名	从文件源下载安装文件
 sudo apt update		apt源文件目录更新
 sudo apt upgrade	文件升级
 
+软件安装后的存放位置
+'''
+/var/cache/apt/archives
+# 下载文件存放位置
+/usr/share
+# 安装文件默认位置
+/usr/bin
+# 可执行文件位置
+/etc
+# 配置文件位置
+/usr/lib
+# lib文件位置
+'''
 
 ## 权限：（注意！尽可能不要使用以下权限，除非安装程序之类的操作）
 sudo	暂时获取管理员权限，之后要求输入密码，不显示密码
@@ -222,3 +235,8 @@ alt + Prt Sc
 进行当前窗口的截取
 shift + Prt Sc
 进行自由截图
+
+查看历史命令
+```bash
+history
+```
