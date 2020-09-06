@@ -17,12 +17,30 @@ GPT-3
 Language Models are Few-Shot Learners 
 https://arxiv.org/abs/2005.14165
 
+GPT-2
+Language Models are Unsupervised Multitask Learners
+https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf
+
 GPT模型
 Improving Language Understanding by Generative Pre-Training
 https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf
 
 GPT-3使用了和GPT-2相同的模型和架构，也是基于Transformer模型，所以，研究GPT-3模型，就直接看GPT模型。GPT和bert模型都是基于Transformer模型，但是不同的是:
 GPT模型是通过多层解码器构建，而BERT是通过多层编码器模块构建的。
+
+BERT模型与GPT系列的对比:
+BERT与GPT-1:
+都使用了预训练和微调两个阶段，然后使用了Transformer来抽取特征
+但是，BERT使用了双向语言模型来预训练，而GPT-1使用了单向语言模型
+导致了Bert的效果更好
+
+GPT-2与GPT-1:
+GPT-2在GPT-1的框架下，将第二阶段中的微调部分中有监督的NLP任务转换为无监督的下游任务，从而不需要修改任何参数和结构。
+提高了Transformer模型的层数和参数规模，从而增加了模型的通用性。
+用足够大的语言模型来实现学习，虽然学习效率比有监督的方法慢很多，但是是很大的进步
+
+GPT-3与GPT-2:
+在语言模型的方向上越走越远。
 
 GPT模型的训练有两个步骤：
 第一个步骤是，无监督预训练，在大型的文本集上学习的高能力语言模型，
