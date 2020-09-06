@@ -11,6 +11,7 @@ GPT-3(Generative Pre-trained Transformer 3)是一种自动回归语言模型(这
 使用基于Transformer的深度学习神经网络生成类似于人写的文本。其完整版本包含了1750亿个机器学习的参数。
 GPT-3在2020年5月推出，在7月进行Beta测试。
 
+<!-- more -->
 相关资料:
 论文:
 GPT-3
