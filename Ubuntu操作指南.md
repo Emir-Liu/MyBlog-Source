@@ -183,7 +183,6 @@ google-chrome
 ```
 就可以直接用命令行来运行程序了。
 
-
 # FAQ:
 ## 用apt下载文件时遇到 /var/lib/dpkg/lock - open (13: 权限不够)问题：
 解决方式：
@@ -239,4 +238,10 @@ shift + Prt Sc
 查看历史命令
 ```bash
 history
+```
+
+## 如何在命令行中打开图片
+使用系统默认的软件打开相关的视频、图片等
+```bash
+xdg-open xxx
 ```
