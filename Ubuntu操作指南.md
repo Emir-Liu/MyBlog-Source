@@ -245,3 +245,4 @@ history
 ```bash
 xdg-open xxx
 ```
+其中，xdg为 X Desktop Group X桌面文件管理工具的缩写大概，就这么记了。
