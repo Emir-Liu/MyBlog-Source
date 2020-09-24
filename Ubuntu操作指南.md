@@ -246,3 +246,11 @@ history
 xdg-open xxx
 ```
 其中，xdg为 X Desktop Group X桌面文件管理工具的缩写大概，就这么记了。
+
+## 当下载中文文档，例如:xxx.txt的时候，打开乱码怎么办
+```bash
+iconv -f GBK -t UTF-8 文件名 //例如:iconv -f GBK -t UTF-8 in.txt
+就可以在终端看到正常的文件了
+iconv -f GBK -t UTF-8 in.txt >in2.txt
+就可以把转换后的内容存入in2.txt供以后查看
+```
