@@ -83,14 +83,6 @@ Longformer
 将效果进行对比
 ![](adaptor比较.png)
 
-
-
-
-## 2.2 MASK
-
-## 2.3 weight features
-
-
 # 3.GPT-3
 参考论文:language model are few-shot learners
 其中，few-shot是什么意思呢？
