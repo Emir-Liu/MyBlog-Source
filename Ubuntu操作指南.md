@@ -254,3 +254,12 @@ iconv -f GBK -t UTF-8 文件名 //例如:iconv -f GBK -t UTF-8 in.txt
 iconv -f GBK -t UTF-8 in.txt >in2.txt
 就可以把转换后的内容存入in2.txt供以后查看
 ```
+
+## 如何查看已连接过的wifi的密码?
+```bash
+cd /etc/NetworkManager/system-connections
+ls 
+# 查看所有连接过的wifi
+sudo cat wifi-name 
+# 在[wifi-security]中的psk就是密码
+```
