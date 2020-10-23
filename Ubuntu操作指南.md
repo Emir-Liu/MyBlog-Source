@@ -263,3 +263,12 @@ ls
 sudo cat wifi-name 
 # 在[wifi-security]中的psk就是密码
 ```
+
+## 解压文件之后乱码
+在Ubuntu下使用unzip解压Widnows环境下生成的zip文件，会发生文件名或者目录名乱码现象，解决办法是使用 7-zip和convmv。
+安装7-zip和convmv：
+sudo apt-get install convmv p7zip-full
+解压zip文件：
+LANG=C 7z e zip_file
+convmv -f gbk -t utf8 -r --notest *
+

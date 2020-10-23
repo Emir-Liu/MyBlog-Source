@@ -50,7 +50,7 @@ git clone git://xxx [file-name]
 状态转化图：
 ```bash
 untracked(未跟踪) |						tracked(已跟踪)
-untracked					| unmodified(未修改) | modified(已修改)	| staged(暂存区)
+untracked		  | unmodified(未修改) | modified(已修改)	| staged(暂存区)
 		       	--------------------add file-------------------->     	    	
                                                     --add file->
                                  --edit file->	    --stage file->

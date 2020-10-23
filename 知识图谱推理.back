@@ -1,0 +1,58 @@
+---
+title: 知识图谱推理
+date: 2020-10-11 06:32:19
+tags:
+---
+参考文献的参考文献：
+文献[27]对知识抽取的研究进展进行了综述,
+文献[28-31]分别对知识图谱构建、实体对齐、知识表示学习以及知识融合进行了综述,
+文献[32]对知识抽取、知识表示、知识融合和知识推理这4个方面的研究进展进行了总结和展望.
+
+
+参考文献:
+面向知识图谱的知识推理研究进展
+
+面向知识图谱的知识推理旨在根据已有的知识推理出新的知识或识别错误的知识
+
+本质上,本文研究的面向知识图谱的知识推理是指根据知识图谱中已有的知识,采用某些方法,推理出新的知识或识别知识图谱中错误的知识.相应地,它包括两方面的内容:知识图谱补全(knowledge graph completion,knowledge base completion)[1316]和知识图谱去噪 (knowledge graph refinement,knowledge graph cleaning)[17,18].知识图谱补全又包括连接预测 (link prediction)[1921]、实体预测(entity prediction)[2224]、关系预测(relation prediction)[2225]、属性预测(attribute
+prediction)[26]等任务
+
+据推理类型划分,将面向知识图谱的知识推理分为单步推理和多步推理,
+根据方法的不同,每类又包括基于规则的推理、基于分布式表示的推
+理、基于神经网络的推理以及混合推理.
+
+目前,已经涌现出一大批知识图谱,其中具有代表性的有 KnowItAll[5]、YAGO[68]、DBpedia[9]、Freebase[10]、
+NELL[11]、Probase[12]等.这些知识图谱从大量数据资源中抽取、组织和管理知识,希望为用户提供能够读懂用户
+需求的智能服务,例如理解搜索的语义,提供更精准的搜索答案.
+
+上面是简介。
+
+下面是解决方法。
+
+paper: Das, R. , Neelakantan, A. , Belanger, D. , & Mccallum, A. . (2016). Chains of reasoning over entities, relations, and text using recurrent neural networks
+
+pro : https://rajarshd.github.io/ChainsofReasoning/
+
+
+OWL等规则及Jena工具
+
+上面的实现效果不好，所以引入了下面的内容:
+ Das, R. , Neelakantan, A. , Belanger, D. , & Mccallum, A. . (2016). Chains of reasoning over entities, relations, and text using recurrent neural networks.
+
+ 源码:
+ https://github.com/debuluoyi
+
+本文首先介绍了基本的 Path-RNN 的架构，本文的一切改进都是基于该模型的。Path-RNN 的输入是两个实体之间的路径，输出推理出的二者之间的新关系。通过将关系之间的连接用 RNN 表示来进行推理。路径的表示是在处理完路径中所有的关系之后由 RNN 的最后的隐状态给出的。模型结构示意图如图1-2所示。
+
+本文提出的方法对这个模型做出的改进有：
+
+之前的方法最大的问题是要为每一个需要预测的 relation-type 单独训练模型。而本文只训练一个 RNN 来预测所有的 relation type，共享了 RNN 参数精度也显著提高了。本文共享了 relation type 的表示以及 RNN 的 composition matrices，这样同样的训练数据变量就大大减少了。训练模型的损失函数用的是 negative log-likelihood如下所示：
+本文使用了 neural attention 机制对多条路径进行推理。之前的工作只推理了 relation，没有推理组成路径上节点的 entities，本文对关系类型，实体和实体类型进行了联合学习和推理。
+分别用 Top-k，average 和 LogSumExp 等多纬度为每一条路径的相似度评分加上权重，这样就考虑了每一条路径包含的信息，而不仅仅是评分最高的那条。
+
+参考论文:
+Chains of Reasoning over Entities,Relations,and Text using Recurrent Neural Networks
+
+使用循环网络对实体，关系和文本的推理链
+
+
