@@ -2,6 +2,8 @@
 title: anaconda教程
 date: 2020-08-07 14:13:50
 tags:
+- anaconda
+- python
 ---
 # 0.简介
 Anaconda是开源的包、环境管理器，里面包含大量安装好的工具包.最主要的是能够通过它进行不同版本的python环境的安装和切换。
